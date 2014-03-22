@@ -175,6 +175,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x1E)(0x56)(0x2D)(0x9A).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = list_of(0x1E)(0x56)(0x31)(0xBC).convert_to_container<std::vector<unsigned char> >();
     }
+    virtual bool RPCisTestNet() const { return true; }
     virtual Network NetworkID() const { return CChainParams::TESTNET; }
 };
 static CTestNetParams testNetParams;
