@@ -105,7 +105,8 @@ BITCOIN_CORE_H = \
   sph_shavite.h \
   hashgroestl.h \
   hashskein.h \
-  hashqubit.h
+  hashqubit.h \
+  compat/sanity.h
 
 JSON_H = \
   json/json_spirit.h \
@@ -205,6 +206,8 @@ libbitcoin_common_a_SOURCES = \
   simd.c \
   cubehash.c \
   shavite.c \
+  compat/glibc_sanity.cpp \
+  compat/glibcxx_sanity.cpp \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
