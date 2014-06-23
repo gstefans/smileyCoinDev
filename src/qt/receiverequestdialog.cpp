@@ -19,7 +19,7 @@
 #include <QMenu>
 
 #if defined(HAVE_CONFIG_H)
-#include "bitcoin-config.h" /* for USE_QRCODE */
+#include "config/bitcoin-config.h" /* for USE_QRCODE */
 #endif
 
 #ifdef USE_QRCODE
