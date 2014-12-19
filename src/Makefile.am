@@ -93,6 +93,8 @@ BITCOIN_CORE_H = \
   hashgroestl.h \
   hashskein.h \
   hashqubit.h \
+  compat/byteswap.h \
+  compat/endian.h \
   compat/sanity.h
 
 JSON_H = \
