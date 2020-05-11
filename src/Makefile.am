@@ -1,12 +1,6 @@
-AM_CPPFLAGS = $(INCLUDES) \
-	-I$(builddir)/obj \
-  $(BDB_CPPFLAGS) \
-  $(BOOST_CPPFLAGS) $(BOOST_INCLUDES)
-AM_CPPFLAGS += $(LEVELDB_CPPFLAGS)
+AM_CPPFLAGS = $(INCLUDES)
 AM_LDFLAGS = $(PTHREAD_CFLAGS)
 AM_CFLAGS = -fPIC -msse2
-
-AM_CPPFLAGS += -I$(builddir) -msse2
 
 if EMBEDDED_LEVELDB
 LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/include
@@ -23,12 +17,14 @@ $(LIBLEVELDB) $(LIBMEMENV):
 				OPT="$(CXXFLAGS) $(CPPFLAGS)"
 endif
 
+BITCOIN_INCLUDES= -I$(builddir) -msse2 -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS)
+
 noinst_LIBRARIES = \
   libbitcoin_server.a \
   libbitcoin_common.a \
   libbitcoin_cli.a
-
 if ENABLE_WALLET
+BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 noinst_LIBRARIES += libbitcoin_wallet.a
 endif
 
@@ -127,6 +123,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 version.o: obj/build.h
 
+libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
@@ -152,6 +149,7 @@ libbitcoin_server_a_SOURCES = \
   $(JSON_H) \
   $(BITCOIN_CORE_H)
 
+libbitcoin_wallet_a_CPPFLAGS = \ $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
@@ -161,6 +159,7 @@ libbitcoin_wallet_a_SOURCES = \
   walletdb.cpp \
   $(BITCOIN_CORE_H)
 
+libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_common_a_SOURCES = \
   base58.cpp \
   allocators.cpp \
@@ -220,8 +219,8 @@ if TARGET_WINDOWS
 smileycoind_SOURCES += bitcoind-res.rc
 endif
 
-AM_CPPFLAGS += $(BDB_CPPFLAGS)
 smileycoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
+smileycoind_CPPFLAGS = $(BITCOIN_INCLUDES)
 
 # bitcoin-cli binary #
 smileycoin_cli_LDADD = \
@@ -229,6 +228,7 @@ smileycoin_cli_LDADD = \
   libbitcoin_common.a \
   $(BOOST_LIBS)
 smileycoin_cli_SOURCES = bitcoin-cli.cpp
+smileycoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
 
 if TARGET_WINDOWS
