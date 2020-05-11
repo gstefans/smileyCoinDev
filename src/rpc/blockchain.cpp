@@ -3,14 +3,14 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcserver.h"
-#include "main.h"
-#include "sync.h"
-#include "checkpoints.h"
+#include <rpc/server.h>
+#include <main.h>
+#include <sync.h>
+#include <checkpoints.h>
 
 #include <stdint.h>
 
-#include "json/json_spirit_value.h"
+#include <json/json_spirit_value.h>
 
 using namespace json_spirit;
 using namespace std;

@@ -4,28 +4,28 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "bitcoin-config.h"
+#include <bitcoin-config.h>
 #endif
 
-#include "init.h"
+#include <init.h>
 
-#include "addrman.h"
-#include "checkpoints.h"
-#include "main.h"
-#include "miner.h"
-#include "net.h"
-#include "rpcserver.h"
-#include "script.h"
-#include "txdb.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "richlistdb.h"
+#include <addrman.h>
+#include <checkpoints.h>
+#include <main.h>
+#include <miner.h>
+#include <net.h>
+#include <rpc/server.h>
+#include <script.h>
+#include <txdb.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <richlistdb.h>
 
 #ifdef ENABLE_WALLET
-#include "db.h"
-#include "wallet.h"
-#include "walletdb.h"
-#include "base58.h"
+#include <db.h>
+#include <wallet.h>
+#include <walletdb.h>
+#include <base58.h>
 #endif
 
 #include <stdint.h>
