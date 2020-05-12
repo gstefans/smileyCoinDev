@@ -75,7 +75,7 @@ bool AppInit(int argc, char* argv[])
 
         if (fCommandLine)
         {
-            fprintf(stderr, "Error: There is no RPC client functionality in bitcoind anymore. Use the smileycoin-cli utility instead.\n")
+            fprintf(stderr, "Error: There is no RPC client functionality in bitcoind anymore. Use the smileycoin-cli utility instead.\n");
             exit(1);
         }
 #ifndef WIN32

@@ -17,7 +17,7 @@ $(LIBLEVELDB) $(LIBMEMENV):
 				OPT="$(CXXFLAGS) $(CPPFLAGS)"
 endif
 
-BITCOIN_INCLUDES= -I$(builddir) -msse2 -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS)
+BITCOIN_INCLUDES= -I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -msse2
 
 noinst_LIBRARIES = \
   libbitcoin_server.a \
@@ -58,6 +58,7 @@ BITCOIN_CORE_H = \
   compat.h \
   core.h \
   crypter.h \
+	crypto/sha2.h \
   db.h \
   richlistdb.h \
   hash.h \
@@ -149,7 +150,7 @@ libbitcoin_server_a_SOURCES = \
   $(JSON_H) \
   $(BITCOIN_CORE_H)
 
-libbitcoin_wallet_a_CPPFLAGS = \ $(BITCOIN_INCLUDES)
+libbitcoin_wallet_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
@@ -171,6 +172,7 @@ libbitcoin_common_a_SOURCES = \
   protocol.cpp \
   rpc/protocol.cpp \
   script.cpp \
+	crypto/sha2.cpp \
   sync.cpp \
   util.cpp \
   version.cpp \
