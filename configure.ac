@@ -710,5 +710,5 @@ AC_SUBST(LEVELDB_TARGET_FLAGS)
 AC_SUBST(BUILD_TEST)
 AC_SUBST(BUILD_QT)
 AC_SUBST(BUILD_TEST_QT)
-AC_CONFIG_FILES([Makefile src/Makefile misc/share/qt/Info.plist])
+AC_CONFIG_FILES([Makefile src/Makefile share/qt/Info.plist])
 AC_OUTPUT
