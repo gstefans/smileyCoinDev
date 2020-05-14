@@ -25,7 +25,7 @@ void SHA512TestVector(const std::string &in, const std::string &out) {
     BOOST_CHECK_EQUAL(HexStr(hash), out);
 }
 
-BOOST_AUTO_TEST_SUITE(sha512_testvectors)
+BOOST_AUTO_TEST_CASE(sha256_testvectors) {
     SHA256TestVector("", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
     SHA256TestVector("abc", "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
     SHA256TestVector("message digest", "f7846f55cf23e14eebeab5b4e1550cad5b509e3348fbc4efa3a1413d393cb650");
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(hmacsha512_testvectors)
         std::vector<unsigned char> vchMAC  = ParseHex(vtest[n].pszMAC);
         unsigned char vchTemp[64];
 
-        CHMAC_SHA512(&vchKey[0], vchKey.size()).Write(&vchData[0], &vchData.size()).Finalize(&vchTemp[0]);
+        CHMAC_SHA512(&vchKey[0], vchKey.size()).Write(&vchData[0], vchData.size()).Finalize(&vchTemp[0]);
         BOOST_CHECK(memcmp(&vchTemp[0], &vchMAC[0], 64) == 0);
     }
 }

@@ -59,6 +59,7 @@ BITCOIN_CORE_H = \
   core.h \
   crypter.h \
 	crypto/sha2.h \
+	crypto/sha1.h \
   db.h \
   richlistdb.h \
   hash.h \
@@ -173,6 +174,7 @@ libbitcoin_common_a_SOURCES = \
   rpc/protocol.cpp \
   script.cpp \
 	crypto/sha2.cpp \
+	crypto/sha1.cpp \
   sync.cpp \
   util.cpp \
   version.cpp \

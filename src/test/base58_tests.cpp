@@ -140,11 +140,7 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_parse)
         std::vector<unsigned char> exp_payload = ParseHex(test[1].get_str());
         const Object &metadata = test[2].get_obj();
         bool isPrivkey = find_value(metadata, "isPrivkey").get_bool();
-        bool isTestnet = find_value(metadata, "isTestnet").get_bool();
-        if (isTestnet)
-            SelectParams(CChainParams::TESTNET);
-        else
-            SelectParams(CChainParams::MAIN);
+        SelectParams(CChainParams::MAIN);
         if(isPrivkey)
         {
             bool isCompressed = find_value(metadata, "isCompressed").get_bool();
@@ -196,11 +192,7 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_gen)
         std::vector<unsigned char> exp_payload = ParseHex(test[1].get_str());
         const Object &metadata = test[2].get_obj();
         bool isPrivkey = find_value(metadata, "isPrivkey").get_bool();
-        bool isTestnet = find_value(metadata, "isTestnet").get_bool();
-        if (isTestnet)
-            SelectParams(CChainParams::TESTNET);
-        else
-            SelectParams(CChainParams::MAIN);
+        SelectParams(CChainParams::MAIN);
         if(isPrivkey)
         {
             bool isCompressed = find_value(metadata, "isCompressed").get_bool();

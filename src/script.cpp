@@ -3,16 +3,17 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "script.h"
+#include <script.h>
 
-#include "bignum.h"
-#include "core.h"
-#include "hash.h"
-#include "key.h"
-#include "keystore.h"
-#include "sync.h"
-#include "uint256.h"
-#include "util.h"
+#include <bignum.h>
+#include <core.h>
+#include <hash.h>
+#include <key.h>
+#include <keystore.h>
+#include <crypto/sha1.h>
+#include <sync.h>
+#include <uint256.h>
+#include <util.h>
 
 #include <boost/foreach.hpp>
 #include <boost/tuple/tuple.hpp>
@@ -870,7 +871,7 @@ bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, co
                     if (opcode == OP_RIPEMD160)
                         RIPEMD160(&vch[0], vch.size(), &vchHash[0]);
                     else if (opcode == OP_SHA1)
-                        SHA1(&vch[0], vch.size(), &vchHash[0]);
+                        CSHA1().Write(&vch[0], vch.size()).Finalize(&vchHash[0]);
                     else if (opcode == OP_SHA256)
                         SHA256(&vch[0], vch.size(), &vchHash[0]);
                     else if (opcode == OP_HASH160)
