@@ -1,6 +1,13 @@
+DIST_SUBDIRS = univalue
 AM_CPPFLAGS = $(INCLUDES)
 AM_LDFLAGS = $(PTHREAD_CFLAGS)
 AM_CFLAGS = -fPIC -msse2
+AM_LIBTOOLFLAGS = --preserve-dup-deps
+
+LIBUNIVALUE=univalue/libunivalue.la
+
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
 if EMBEDDED_LEVELDB
 LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/include
@@ -18,6 +25,8 @@ $(LIBLEVELDB) $(LIBMEMENV):
 endif
 
 BITCOIN_INCLUDES= -I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -msse2
+
+BITCOIN_INCLUDES += -I$(srcdir)/univalue/include
 
 noinst_LIBRARIES = \
   libbitcoin_server.a \
@@ -211,7 +220,8 @@ smileycoind_LDADD = \
   libbitcoin_server.a \
   libbitcoin_common.a \
   $(LIBLEVELDB) \
-  $(LIBMEMENV)
+  $(LIBMEMENV) \
+	$(LIBUNIVALUE)
 if ENABLE_WALLET
 smileycoind_LDADD += libbitcoin_wallet.a
 endif
@@ -229,6 +239,7 @@ smileycoind_CPPFLAGS = $(BITCOIN_INCLUDES)
 smileycoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
+	$(LIBUNIVALUE) \
   $(BOOST_LIBS)
 smileycoin_cli_SOURCES = bitcoin-cli.cpp
 smileycoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)

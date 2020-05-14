@@ -43,6 +43,8 @@ AM_MAINTAINER_MODE([enable])
 dnl make the compilation flags quiet unless V=1 is used
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
+LT_INIT([pic-only])
+
 dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
@@ -711,4 +713,5 @@ AC_SUBST(BUILD_TEST)
 AC_SUBST(BUILD_QT)
 AC_SUBST(BUILD_TEST_QT)
 AC_CONFIG_FILES([Makefile src/Makefile share/qt/Info.plist])
+AC_CONFIG_SUBDIRS([src/univalue])
 AC_OUTPUT

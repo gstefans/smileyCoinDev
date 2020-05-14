@@ -12,6 +12,8 @@
 
 #include <boost/filesystem/operations.hpp>
 
+#include <univalue.h>
+
 using namespace boost;
 using namespace boost::asio;
 using namespace json_spirit;
