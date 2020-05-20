@@ -34,7 +34,7 @@ qt_test_test_bitcoin_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBUNI
   $(LIBMEMENV) $(BOOST_LIBS) $(QT_DBUS_LIBS) $(QT_TEST_LIBS) $(QT_LIBS) \
   $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS)
 qt_test_test_bitcoin_qt_LDFLAGS = $(QT_LDFLAGS)
-qt_test_test_bitcoin_qt_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+qt_test_test_bitcoin_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
 CLEAN_BITCOIN_QT_TEST = $(TEST_QT_MOC_CPP) qt/test/*.gcda qt/test/*.gcno
 
