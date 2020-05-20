@@ -51,13 +51,16 @@ Q_IMPORT_PLUGIN(qtwcodecs)
 Q_IMPORT_PLUGIN(qkrcodecs)
 Q_IMPORT_PLUGIN(qtaccessiblewidgets)
 #else
+#if QT_VERSION < 0x50400
 Q_IMPORT_PLUGIN(AccessibleFactory)
+#endif
 #if defined(QT_QPA_PLATFORM_XCB)
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin);
 #elif defined(QT_PLATFORM_WINDOWS)
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 #elif defined(QT_PLATFORM_COCOA)
 Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
+#endif
 #endif
 #endif
 
