@@ -9,7 +9,6 @@
 
 class AddressTableModel;
 class OptionsModel;
-class PeerTableModel;
 class TransactionTableModel;
 
 class CWallet;
@@ -43,7 +42,6 @@ public:
     ~ClientModel();
 
     OptionsModel *getOptionsModel();
-    PeerTableModel *getPeerTableModel();
 
     //! Return number of connections, default is in- and outbound (total)
     int getNumConnections(unsigned int flags = CONNECTIONS_ALL) const;
@@ -75,7 +73,6 @@ public:
 
 private:
     OptionsModel *optionsModel;
-    PeerTableModel *peerTableModel;
 
     int cachedNumBlocks;
     int cachedNumBlocksOfPeers;
