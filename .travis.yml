@@ -20,7 +20,7 @@ env:
     - WINEDEBUG=fixme-all
   matrix:
   # x86_64 Linux (uses qt5 dev package instead of depends Qt to speed up build and avoid timeout)
-    - HOST=x86_64-unknown-linux-gnu PACKAGES="python3-zmq qtbase5-dev qttools5-dev-tools protobuf-compiler libdbus-1-dev libharfbuzz-dev" DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
+    - HOST=x86_64-unknown-linux-gnu PACKAGES="python3-zmq qtbase5-dev qttools5-dev-tools protobuf-compiler libdbus-1-dev libharfbuzz-dev" DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1" RUN_TESTS=false GOAL="install" BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
 
 install:
   - if [ -n "$PACKAGES" ]; then travis_retry sudo apt-get update; fi
