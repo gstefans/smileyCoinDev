@@ -6,9 +6,10 @@
 #ifndef BITCOIN_BASE58_H
 #define BITCOIN_BASE58_H
 
-#include "chainparams.h"
-#include "key.h"
-#include "script.h"
+#include <chainparams.h>
+#include <key.h>
+#include <script.h>
+#include <support/allocators/zeroafterfree.h>
 
 #include <string>
 #include <vector>

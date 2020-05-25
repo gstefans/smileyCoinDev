@@ -29,13 +29,13 @@ BITCOIN_INCLUDES= -I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CP
 
 BITCOIN_INCLUDES += -I$(srcdir)/univalue/include
 
-noinst_LIBRARIES = \
+EXTRA_LIBRARIES = \
   libbitcoin_server.a \
   libbitcoin_common.a \
   libbitcoin_cli.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
-noinst_LIBRARIES += libbitcoin_wallet.a
+EXTRA_LIBRARIES += libbitcoin_wallet.a
 endif
 
 bin_PROGRAMS =
@@ -56,7 +56,6 @@ endif
 BITCOIN_CORE_H = \
   addrman.h \
   alert.h \
-  allocators.h \
   base58.h bignum.h \
   bloom.h \
   chainparams.h \
@@ -90,6 +89,10 @@ BITCOIN_CORE_H = \
   rpc/server.h \
   script.h \
   serialize.h \
+  support/allocators/secure.h \
+  support/allocators/zeroafterfree.h \
+  support/cleanse.h \
+	support/pagelocker.h \
   sync.h \
   threadsafety.h \
   tinyformat.h \
@@ -177,7 +180,6 @@ libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
   base58.cpp \
-  allocators.cpp \
   chainparams.cpp \
   core.cpp \
   hash.cpp \
@@ -188,6 +190,8 @@ libbitcoin_common_a_SOURCES = \
   script.cpp \
 	crypto/sha2.cpp \
 	crypto/sha1.cpp \
+	support/cleanse.cpp \
+  support/pagelocker.cpp \
   sync.cpp \
   util.cpp \
   version.cpp \

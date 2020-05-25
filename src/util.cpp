@@ -177,7 +177,7 @@ void RandAddSeedPerfmon()
     if (ret == ERROR_SUCCESS)
     {
         RAND_add(pdata, nSize, nSize/100.0);
-        OPENSSL_cleanse(pdata, nSize);
+        memory_cleanse(pdata, nSize);
         LogPrint("rand", "RandAddSeed() %lu bytes\n", nSize);
     }
 #endif
