@@ -1,5 +1,5 @@
 dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
-AC_PREREQ([2.60])
+AC_PREREQ([2.69])
 define(_CLIENT_VERSION_MAJOR, 2)
 define(_CLIENT_VERSION_MINOR, 2)
 define(_CLIENT_VERSION_REVISION, 4)
@@ -43,6 +43,9 @@ AM_MAINTAINER_MODE([enable])
 dnl make the compilation flags quiet unless V=1 is used
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
+dnl Require C++11 compiler (no GNU extensions)
+AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
+dnl libtool init checks.
 LT_INIT([pic-only])
 
 dnl Checks for programs.
@@ -318,7 +321,6 @@ AC_C_BIGENDIAN([AC_MSG_ERROR("Big Endian not supported")])
 
 dnl Check for pthread compile/link requirements
 AX_PTHREAD
-INCLUDES="$INCLUDES $PTHREAD_CFLAGS"
 
 # The following macro will add the necessary defines to bitcoin-config.h, but
 # they also need to be passed down to any subprojects. Pull the results out of
