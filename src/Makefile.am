@@ -5,10 +5,14 @@ AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(INCLUDES) $(HARDENED_CPPFLAGS)
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 
+if EMBEDDED_UNIVALUE
 LIBUNIVALUE=univalue/libunivalue.la
 
 $(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+else
+LIBUNIVALUE = $(UNIVALUE_LIBS)
+endif
 
 if EMBEDDED_LEVELDB
 LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/include
@@ -35,6 +39,7 @@ EXTRA_LIBRARIES = \
   libbitcoin_cli.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
+BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 EXTRA_LIBRARIES += libbitcoin_wallet.a
 endif
 
@@ -263,14 +268,17 @@ endif
 
 CLEANFILES = *.gcda *.gcno
 CLEANFILES += leveldb/libleveldb.a leveldb/libmemenv.a
+CLEANFILES += univalue/*.gcda univalue/*.gcno
 
 DISTCLEANFILES = obj/build.h
 
 EXTRA_DIST = leveldb
 
 clean-local:
-	-$(MAKE) -C leveldb clean
-	-rm -f leveldb/*/*.gcno leveldb/helpers/memenv/*.gcno
+	-$(MAKE) -C univalue clean
+	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
+	-rm -f config.h
+	-rm -rf test/__pycache__
 
 .rc.o:
 			@test -f $(WINDRES)
