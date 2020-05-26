@@ -12,7 +12,8 @@
 
 #include <boost/filesystem/operations.hpp>
 
-#include <univalue.h>
+// TODO: Fix travis
+//#include <univalue.h>
 
 using namespace boost;
 using namespace boost::asio;
