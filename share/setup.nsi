@@ -1,28 +1,29 @@
-Name "Smileycoin Core (-bit)"
+Name "Litecoin Core (-bit)"
 
 RequestExecutionLevel highest
 SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 2016.8.1
-!define COMPANY "Smileycoin Core project"
-!define URL http://www.smileycoin.co/
+!define VERSION 0.17.1
+!define COMPANY "Litecoin Core project"
+!define URL https://litecoin.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/home/myckel/software/github/smlyarad/Smileycoin/share/pixmaps/bitcoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/myckel/software/github/smlyarad/Smileycoin/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/home/enoch/git/litecoin/share/pixmaps/bitcoin.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/enoch/git/litecoin/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/home/myckel/software/github/smlyarad/Smileycoin/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/home/enoch/git/litecoin/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Smileycoin Core"
-!define MUI_FINISHPAGE_RUN $INSTDIR\smileycoin-qt.exe
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Litecoin Core"
+!define MUI_FINISHPAGE_RUN "$WINDIR\explorer.exe"
+!define MUI_FINISHPAGE_RUN_PARAMETERS $INSTDIR\litecoin-qt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/myckel/software/github/smlyarad/Smileycoin/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/enoch/git/litecoin/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -48,18 +49,18 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile /home/myckel/software/github/smlyarad/Smileycoin/smileycoin-${VERSION}-win-setup.exe
+OutFile /home/enoch/git/litecoin/litecoin-${VERSION}-win-setup.exe
 !if "" == "64"
-InstallDir $PROGRAMFILES64\Smileycoin
+InstallDir $PROGRAMFILES64\Litecoin
 !else
-InstallDir $PROGRAMFILES\Smileycoin
+InstallDir $PROGRAMFILES\Litecoin
 !endif
 CRCCheck on
 XPStyle on
 BrandingText " "
 ShowInstDetails show
 VIProductVersion ${VERSION}.0
-VIAddVersionKey ProductName "Smileycoin Core"
+VIAddVersionKey ProductName "Litecoin Core"
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
@@ -73,20 +74,17 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/myckel/software/github/smlyarad/Smileycoin/release/smileycoin-qt.exe
-    File /oname=COPYING.txt /home/myckel/software/github/smlyarad/Smileycoin/COPYING
-    File /oname=readme.txt /home/myckel/software/github/smlyarad/Smileycoin/doc/README_windows.txt
+    File /home/enoch/git/litecoin/release/litecoin-qt
+    File /oname=COPYING.txt /home/enoch/git/litecoin/COPYING
+    File /oname=readme.txt /home/enoch/git/litecoin/doc/README_windows.txt
     SetOutPath $INSTDIR\daemon
-    File /home/myckel/software/github/smlyarad/Smileycoin/release/smileycoind.exe
-    File /home/myckel/software/github/smlyarad/Smileycoin/release/smileycoin-cli.exe
+    File /home/enoch/git/litecoin/release/litecoind
+    File /home/enoch/git/litecoin/release/litecoin-cli
+    File /home/enoch/git/litecoin/release/litecoin-tx
     SetOutPath $INSTDIR\doc
-    File /r /home/myckel/software/github/smlyarad/Smileycoin/doc\*.*
+    File /r /x Makefile* /home/enoch/git/litecoin/doc\*.*
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
-
-    # Remove old wxwidgets-based-bitcoin executable and locales:
-    Delete /REBOOTOK $INSTDIR\smileycoin.exe
-    RMDir /r /REBOOTOK $INSTDIR\locale
 SectionEnd
 
 Section -post SEC0001
@@ -95,7 +93,8 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\smileycoin-qt.exe
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\litecoin-qt
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Litecoin Core (testnet, -bit).lnk" "$INSTDIR\litecoin-qt" "-testnet" "$INSTDIR\litecoin-qt" 1
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
@@ -106,10 +105,10 @@ Section -post SEC0001
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
-    WriteRegStr HKCR "smileycoin" "URL Protocol" ""
-    WriteRegStr HKCR "smileycoin" "" "URL:Smileycoin"
-    WriteRegStr HKCR "smileycoin\DefaultIcon" "" $INSTDIR\smileycoin-qt.exe
-    WriteRegStr HKCR "smileycoin\shell\open\command" "" '"$INSTDIR\smileycoin-qt.exe" "%1"'
+    WriteRegStr HKCR "litecoin" "URL Protocol" ""
+    WriteRegStr HKCR "litecoin" "" "URL:Litecoin"
+    WriteRegStr HKCR "litecoin\DefaultIcon" "" $INSTDIR\litecoin-qt
+    WriteRegStr HKCR "litecoin\shell\open\command" "" '"$INSTDIR\litecoin-qt" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -127,7 +126,7 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
-    Delete /REBOOTOK $INSTDIR\smileycoin-qt.exe
+    Delete /REBOOTOK $INSTDIR\litecoin-qt
     Delete /REBOOTOK $INSTDIR\COPYING.txt
     Delete /REBOOTOK $INSTDIR\readme.txt
     RMDir /r /REBOOTOK $INSTDIR\daemon
@@ -139,7 +138,8 @@ Section -un.post UNSEC0001
     DeleteRegKey HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk"
-    Delete /REBOOTOK "$SMSTARTUP\Smileycoin.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Litecoin Core (testnet, -bit).lnk"
+    Delete /REBOOTOK "$SMSTARTUP\Litecoin.lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     Delete /REBOOTOK $INSTDIR\debug.log
     Delete /REBOOTOK $INSTDIR\db.log
@@ -147,7 +147,7 @@ Section -un.post UNSEC0001
     DeleteRegValue HKCU "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKCU "${REGKEY}\Components"
     DeleteRegKey /IfEmpty HKCU "${REGKEY}"
-    DeleteRegKey HKCR "bitcoin"
+    DeleteRegKey HKCR "litecoin"
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
     RmDir /REBOOTOK $INSTDIR
     Push $R0
