@@ -70,6 +70,8 @@ AC_PATH_PROG([GIT], [git])
 AC_PATH_PROG(CCACHE,ccache)
 AC_PATH_PROG(XGETTEXT,xgettext)
 AC_PATH_PROG(HEXDUMP,hexdump)
+AC_PATH_TOOL(READELF, readelf)
+AC_PATH_TOOL(CPPFILT, c++filt)
 
 
 # This m4 will only be used if a system copy cannot be found. This is helpful
@@ -452,6 +454,11 @@ AX_BOOST_PROGRAM_OPTIONS
 AX_BOOST_THREAD
 AX_BOOST_CHRONO
 
+dnl Boost 1.56 through 1.62 allow using std::atomic instead of its own atomic
+dnl counter implementations. In 1.63 and later the std::atomic approach is default.
+m4_pattern_allow(DBOOST_AC_USE_STD_ATOMIC) dnl otherwise it's treated like a macro
+BOOST_CPPFLAGS="-DBOOST_SP_USE_STD_ATOMIC -DBOOST_AC_USE_STD_ATOMIC $BOOST_CPPFLAGS"
+
 if test x$use_tests = xyes; then
 
   if test x$HEXDUMP = x; then
@@ -775,6 +782,7 @@ AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
 AM_CONDITIONAL([USE_COMPARISON_TOOL],[test x$use_comparison_tool != xno])
 AM_CONDITIONAL([USE_COMPARISON_TOOL_REORG_TESTS],[test x$use_comparison_tool_reorg_test != xno])
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
+AM_CONDITIONAL([HARDEN],[test x$use_hardening = yes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])

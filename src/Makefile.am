@@ -29,7 +29,7 @@ $(LIBLEVELDB) $(LIBMEMENV):
 				OPT="$(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS)"
 endif
 
-BITCOIN_INCLUDES= -I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -msse2
+BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -msse2
 
 BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
@@ -48,15 +48,15 @@ noinst_PROGRAMS =
 TESTS =
 
 if BUILD_BITCOIND
-	bin_PROGRAMS += smileycoind
+  bin_PROGRAMS += smileycoind
 endif
 
 if BUILD_BITCOIN_CLI
-	bin_PROGRAMS += smileycoin-cli
+  bin_PROGRAMS += smileycoin-cli
 endif
 
 
-.PHONY: FORCE
+.PHONY: FORCE check-symbols check-security
 # bitcoin core #
 BITCOIN_CORE_H = 	\
 	addrman.h \
@@ -284,9 +284,18 @@ clean-local:
 			@test -f $(WINDRES)
 		  $(AM_V_GEN) $(WINDRES) -i $< -o $@
 
-.mm.o:
-			$(AM_V_CXX) $(OBJCXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-				$(CPPFLAGS) $(AM_CXXFLAGS) $(QT_INCLUDES) $(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS)  -c -o $@ $<
+check-symbols: $(bin_PROGRAMS)
+if GLIBC_BACK_COMPAT
+	@echo "Checking glibc back compat..."
+	$(AM_V_at) READELF=$(READELF) CPPFILT=$(CPPFILT) $(top_srcdir)/contrib/devtools/symbol-check.py < $(bin_PROGRAMS)
+endif
+
+check-security: $(bin_PROGRAMS)
+if HARDEN
+	@echo "Checking binary security..."
+	$(AM_V_at) READELF=$(READELF) OBJDUMP=$(OBJDUMP) $(top_srcdir)/contrib/devtools/security-check.py < $(bin_PROGRAMS)
+endif
+
 
 %.pb.cc %.pb.h: %.proto
 			@test -f $(PROTOC)
