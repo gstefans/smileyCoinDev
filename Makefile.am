@@ -12,7 +12,6 @@ appicondir=$(datadir)/icons/hicolor/scalable/apps
 appicon_DATA = media/svg/smileycoin.svg
 
 
-GZIP_ENV="-9n"
 
 BITCOIND_BIN=$(top_builddir)/src/smileycoind$(EXEEXT)
 BITCOIN_QT_BIN=$(top_builddir)/src/qt/smileycoin-qt$(EXEEXT)
