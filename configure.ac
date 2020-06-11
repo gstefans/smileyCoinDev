@@ -591,7 +591,7 @@ dnl univalue check
 
 need_bundled_univalue=yes
 
-if test x$build_bitcoin_wallet$build_bitcoin_cli$build_bitcoin_tx$build_bitcoind$bitcoin_enable_qt$use_tests$use_bench = xnonononononono; then
+if test x$build_bitcoin_wallet$build_bitcoin_cli$build_bitcoind$bitcoin_enable_qt = xnonononono; then
   need_bundled_univalue=no
 else
 
@@ -804,5 +804,10 @@ AC_SUBST(BUILD_TEST)
 AC_SUBST(BUILD_QT)
 AC_SUBST(BUILD_TEST_QT)
 AC_CONFIG_FILES([Makefile src/Makefile share/qt/Info.plist])
-AC_CONFIG_SUBDIRS([src/univalue])
+
+if test x$need_bundled_univalue = xyes; then
+  AC_CONFIG_SUBDIRS([src/univalue])
+fi
+
+ac_configure_args="${ac_configure_args} --disable-shared --with-pic --with-bignum=no --enable-module-recovery --disable-jni"
 AC_OUTPUT

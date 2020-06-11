@@ -6,7 +6,7 @@ AM_CPPFLAGS = $(INCLUDES) $(HARDENED_CPPFLAGS)
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 
 if EMBEDDED_UNIVALUE
-LIBUNIVALUE=univalue/libunivalue.la
+LIBUNIVALUE = univalue/libunivalue.la
 
 $(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
@@ -31,12 +31,12 @@ endif
 
 BITCOIN_INCLUDES= -I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -msse2
 
-BITCOIN_INCLUDES += -I$(srcdir)/univalue/include
+BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
 EXTRA_LIBRARIES = \
-  libbitcoin_server.a \
-  libbitcoin_common.a \
-  libbitcoin_cli.a
+	libbitcoin_server.a \
+	libbitcoin_common.a \
+	libbitcoin_cli.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
@@ -44,74 +44,74 @@ EXTRA_LIBRARIES += libbitcoin_wallet.a
 endif
 
 bin_PROGRAMS =
-sbin_PROGRAMS =
+noinst_PROGRAMS =
 TESTS =
 
 if BUILD_BITCOIND
-  sbin_PROGRAMS += smileycoind
+	bin_PROGRAMS += smileycoind
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += smileycoin-cli
+	bin_PROGRAMS += smileycoin-cli
 endif
 
 
 .PHONY: FORCE
 # bitcoin core #
-BITCOIN_CORE_H = \
-  addrman.h \
-  alert.h \
-  base58.h bignum.h \
-  bloom.h \
-  chainparams.h \
-  checkpoints.h \
-  checkqueue.h \
-  version.h \
-  coincontrol.h \
-  coins.h \
-  compat.h \
-  core.h \
-  crypter.h \
+BITCOIN_CORE_H = 	\
+	addrman.h \
+	alert.h \
+	base58.h bignum.h \
+	bloom.h \
+	chainparams.h \
+	checkpoints.h \
+	checkqueue.h \
+	version.h \
+	coincontrol.h \
+	coins.h \
+	compat.h \
+	core.h \
+	crypter.h \
 	crypto/sha2.h \
 	crypto/sha1.h \
-  db.h \
-  richlistdb.h \
-  hash.h \
-  init.h \
-  key.h \
-  keystore.h \
-  leveldbwrapper.h \
-  limitedmap.h \
-  main.h \
-  miner.h \
-  mruset.h \
-  netbase.h \
-  net.h \
-  noui.h \
-  protocol.h \
-  rpc/client.h \
-  rpc/protocol.h \
-  rpc/server.h \
-  script.h \
-  serialize.h \
-  support/allocators/secure.h \
-  support/allocators/zeroafterfree.h \
-  support/cleanse.h \
+	db.h \
+	richlistdb.h \
+	hash.h \
+	init.h \
+	key.h \
+	keystore.h \
+	leveldbwrapper.h \
+	limitedmap.h \
+	main.h \
+	miner.h \
+	mruset.h \
+	netbase.h \
+	net.h \
+	noui.h \
+	protocol.h \
+	rpc/client.h \
+	rpc/protocol.h \
+	rpc/server.h \
+	script.h \
+	serialize.h \
+	support/allocators/secure.h \
+	support/allocators/zeroafterfree.h \
+	support/cleanse.h \
 	support/pagelocker.h \
-  sync.h \
-  threadsafety.h \
-  tinyformat.h \
-  txdb.h \
-  txmempool.h \
-  ui_interface.h \
-  uint256.h \
-  util.h \
-  version.h \
-  walletdb.h \
-  wallet.h \
-  scrypt.h \
-  sph_blake.h \
-  sph_groestl.h \
+	sync.h \
+	threadsafety.h \
+	tinyformat.h \
+	txdb.h \
+	txmempool.h \
+	ui_interface.h \
+	uint256.h \
+	util.h \
+	version.h \
+	walletdb.h \
+	wallet.h \
+	scrypt.h \
+	sph_blake.h \
+	sph_groestl.h \
   sph_keccak.h \
   sph_bmw.h \
   sph_jh.h \
