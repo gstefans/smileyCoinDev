@@ -12,29 +12,29 @@ AC_DEFUN([SMILEYCOIN_FIND_BDB53],[
   done
   for searchpath in $bdbdirlist ''; do
     test -n "${searchpath}" && searchpath="${searchpath}/"
-    AC_TRY_COMPILE([
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
       #include <${searchpath}db_cxx.h>
-    ],[
+    ]],[[
       #if !((DB_VERSION_MAJOR == 5 && DB_VERSION_MINOR >= 3) || DB_VERSION_MAJOR > 5)
         #error "failed to find bdb 5.3+"
       #endif
-    ],[
+    ]])],[
       if test "x$bdbpath" = "xX"; then
         bdbpath="${searchpath}"
       fi
     ],[
       continue
     ])
-    AC_TRY_COMPILE([
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
       #include <${searchpath}db_cxx.h>
-    ],[
+    ]],[[
       #if !(DB_VERSION_MAJOR == 5 && DB_VERSION_MINOR == 3)
         #error "failed to find bdb 5.3"
       #endif
-    ],[
+    ]])],[
       bdb53path="${searchpath}"
       break
-    ])
+    ],[])
   done
   if test "x$bdbpath" = "xX"; then
     AC_MSG_RESULT([no])
