@@ -60,6 +60,7 @@ BITCOIN_CORE_H = 	\
 	crypter.h \
 	crypto/sha2.h \
 	crypto/sha1.h \
+  crypto/ripemd160.h \
 	crypto/scrypt.h \
 	crypto/sph_blake.h \
 	crypto/sph_groestl.h \
@@ -170,9 +171,6 @@ libbitcoin_wallet_a_SOURCES = \
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
-	crypto/sha1.cpp \
-	crypto/sha2.cpp \
-	support/cleanse.cpp \
   base58.cpp \
   chainparams.cpp \
   core.cpp \
@@ -185,8 +183,11 @@ libbitcoin_common_a_SOURCES = \
   crypto/jh.c \
   crypto/keccak.c \
   crypto/luffa.c \
+  crypto/ripemd160.cpp \
   crypto/scrypt-sse2.cpp \
   crypto/scrypt.cpp \
+  crypto/sha1.cpp \
+  crypto/sha2.cpp \
   crypto/shavite.c \
   crypto/simd.c \
   crypto/skein.c \
@@ -196,6 +197,7 @@ libbitcoin_common_a_SOURCES = \
   protocol.cpp \
   rpc/protocol.cpp \
   script.cpp \
+  support/cleanse.cpp \
   support/pagelocker.cpp \
   sync.cpp \
   util.cpp \
