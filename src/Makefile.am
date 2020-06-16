@@ -26,7 +26,8 @@ BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 EXTRA_LIBRARIES += \
 	libbitcoin_server.a \
 	libbitcoin_common.a \
-	libbitcoin_cli.a
+	libbitcoin_cli.a \
+  crypto/libbitcoin_crypto.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
@@ -66,25 +67,6 @@ BITCOIN_CORE_H = 	\
 	core.h \
   core_io.h \
 	crypter.h \
-	crypto/sha2.h \
-	crypto/sha1.h \
-  crypto/ripemd160.h \
-	crypto/scrypt.h \
-	crypto/sph_blake.h \
-	crypto/sph_groestl.h \
-	crypto/sph_keccak.h \
-	crypto/sph_bmw.h \
-	crypto/sph_jh.h \
-	crypto/sph_skein.h \
-	crypto/sph_types.h \
-	crypto/sph_echo.h \
-	crypto/sph_luffa.h \
-	crypto/sph_simd.h \
-	crypto/sph_cubehash.h \
-	crypto/sph_shavite.h \
-	crypto/hashgroestl.h \
-	crypto/hashskein.h \
-	crypto/hashqubit.h \
 	db.h \
 	richlistdb.h \
 	hash.h \
@@ -176,14 +158,27 @@ libbitcoin_wallet_a_SOURCES = \
   walletdb.cpp \
   $(BITCOIN_CORE_H)
 
-libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitcoin_common_a_SOURCES = \
-  base58.cpp \
-  chainparams.cpp \
-  core.cpp \
-  core_read.cpp \
-  core_write.cpp \
+crypto_libbitcoin_crypto_a_CPPFLAGS = $(BITCOIN_CONFIG_INCLUDES)
+crypto_libbitcoin_crypto_a_SOURCES = \
+	crypto/sha2.h \
+	crypto/sha1.h \
+  crypto/ripemd160.h \
+	crypto/scrypt.h \
+	crypto/sph_blake.h \
+	crypto/sph_groestl.h \
+	crypto/sph_keccak.h \
+	crypto/sph_bmw.h \
+	crypto/sph_jh.h \
+	crypto/sph_skein.h \
+	crypto/sph_types.h \
+	crypto/sph_echo.h \
+	crypto/sph_luffa.h \
+	crypto/sph_simd.h \
+	crypto/sph_cubehash.h \
+	crypto/sph_shavite.h \
+	crypto/hashgroestl.h \
+	crypto/hashskein.h \
+	crypto/hashqubit.h \
   crypto/aes_helper.c \
   crypto/blake.c \
   crypto/bmw.c \
@@ -200,7 +195,16 @@ libbitcoin_common_a_SOURCES = \
   crypto/sha2.cpp \
   crypto/shavite.c \
   crypto/simd.c \
-  crypto/skein.c \
+  crypto/skein.c
+
+libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_common_a_SOURCES = \
+  base58.cpp \
+  chainparams.cpp \
+  core.cpp \
+  core_read.cpp \
+  core_write.cpp \
   hash.cpp \
   key.cpp \
   netbase.cpp \
@@ -232,6 +236,7 @@ nodist_libbitcoin_common_a_SOURCES = $(srcdir)/obj/build.h
 smileycoind_LDADD = \
   libbitcoin_server.a \
   libbitcoin_common.a \
+  crypto/libbitcoin_crypto.a \
   $(LIBLEVELDB) \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
@@ -254,6 +259,7 @@ smileycoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 smileycoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
+  crypto/libbitcoin_crypto.a \
 	$(LIBUNIVALUE) \
   $(BOOST_LIBS)
 
@@ -264,7 +270,9 @@ smileycoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 # bitcoin-tx binary #
 smileycoin_tx_LDADD = \
+  libbitcoin_server.a \
   libbitcoin_common.a \
+  crypto/libbitcoin_crypto.a \
   $(LIBUNIVALUE) \
   $(BOOST_LIBS)
 smileycoin_tx_SOURCES = bitcoin-tx.cpp
