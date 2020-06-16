@@ -6,13 +6,13 @@
 #ifndef BITCOIN_CORE_H
 #define BITCOIN_CORE_H
 
-#include "script.h"
-#include "serialize.h"
-#include "uint256.h"
-#include "scrypt.h"
-#include "hashgroestl.h"
-#include "hashskein.h"
-#include "hashqubit.h"
+#include <script.h>
+#include <serialize.h>
+#include <uint256.h>
+#include <crypto/scrypt.h>
+#include <crypto/hashgroestl.h>
+#include <crypto/hashskein.h>
+#include <crypto/hashqubit.h>
 
 #include <stdint.h>
 

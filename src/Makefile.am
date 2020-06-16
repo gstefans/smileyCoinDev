@@ -60,6 +60,22 @@ BITCOIN_CORE_H = 	\
 	crypter.h \
 	crypto/sha2.h \
 	crypto/sha1.h \
+	crypto/scrypt.h \
+	crypto/sph_blake.h \
+	crypto/sph_groestl.h \
+	crypto/sph_keccak.h \
+	crypto/sph_bmw.h \
+	crypto/sph_jh.h \
+	crypto/sph_skein.h \
+	crypto/sph_types.h \
+	crypto/sph_echo.h \
+	crypto/sph_luffa.h \
+	crypto/sph_simd.h \
+	crypto/sph_cubehash.h \
+	crypto/sph_shavite.h \
+	crypto/hashgroestl.h \
+	crypto/hashskein.h \
+	crypto/hashqubit.h \
 	db.h \
 	richlistdb.h \
 	hash.h \
@@ -94,23 +110,7 @@ BITCOIN_CORE_H = 	\
 	util.h \
 	version.h \
 	walletdb.h \
-	wallet.h \
-	scrypt.h \
-	sph_blake.h \
-	sph_groestl.h \
-  sph_keccak.h \
-  sph_bmw.h \
-  sph_jh.h \
-  sph_skein.h \
-  sph_types.h \
-  sph_echo.h \
-  sph_luffa.h \
-  sph_simd.h \
-  sph_cubehash.h \
-  sph_shavite.h \
-  hashgroestl.h \
-  hashskein.h \
-  hashqubit.h
+	wallet.h
 
 JSON_H = \
   json/json_spirit.h \
@@ -170,36 +170,36 @@ libbitcoin_wallet_a_SOURCES = \
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
+	crypto/sha1.cpp \
+	crypto/sha2.cpp \
+	support/cleanse.cpp \
   base58.cpp \
   chainparams.cpp \
   core.cpp \
+  crypto/aes_helper.c \
+  crypto/blake.c \
+  crypto/bmw.c \
+  crypto/cubehash.c \
+  crypto/echo.c \
+  crypto/groestl.c \
+  crypto/jh.c \
+  crypto/keccak.c \
+  crypto/luffa.c \
+  crypto/scrypt-sse2.cpp \
+  crypto/scrypt.cpp \
+  crypto/shavite.c \
+  crypto/simd.c \
+  crypto/skein.c \
   hash.cpp \
   key.cpp \
   netbase.cpp \
   protocol.cpp \
   rpc/protocol.cpp \
   script.cpp \
-	crypto/sha2.cpp \
-	crypto/sha1.cpp \
-	support/cleanse.cpp \
   support/pagelocker.cpp \
   sync.cpp \
   util.cpp \
   version.cpp \
-  scrypt.cpp \
-  scrypt-sse2.cpp \
-  blake.c \
-  bmw.c \
-  groestl.c \
-  jh.c \
-  keccak.c \
-  skein.c \
-  aes_helper.c \
-  echo.c \
-  luffa.c \
-  simd.c \
-  cubehash.c \
-  shavite.c \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
