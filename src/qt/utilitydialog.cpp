@@ -2,18 +2,18 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "utilitydialog.h"
+#include <qt/utilitydialog.h>
 
-#include "ui_aboutdialog.h"
-#include "ui_helpmessagedialog.h"
+#include <qt/forms/ui_aboutdialog.h>
+#include <qt/forms/ui_helpmessagedialog.h>
 
-#include "bitcoingui.h"
-#include "clientmodel.h"
-#include "guiutil.h"
+#include <qt/bitcoingui.h>
+#include <qt/clientmodel.h>
+#include <qt/guiutil.h>
 
-#include "version.h"
-#include "init.h"
-#include "util.h"
+#include <version.h>
+#include <init.h>
+#include <util.h>
 
 #include <QLabel>
 #include <QVBoxLayout>

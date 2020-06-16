@@ -30,7 +30,7 @@ public:
 private:
     Ui::AboutDialog *ui;
 
-private slots:
+private Q_SLOTS:
     void on_buttonBox_accepted();
 };
 
@@ -52,7 +52,7 @@ private:
     QString coreOptions;
     QString uiOptions;
 
-private slots:
+private Q_SLOTS:
     void on_okButton_accepted();
 };
 

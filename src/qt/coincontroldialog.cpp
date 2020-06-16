@@ -2,19 +2,19 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "coincontroldialog.h"
-#include "ui_coincontroldialog.h"
+#include <qt/coincontroldialog.h>
+#include <qt/forms/ui_coincontroldialog.h>
 
-#include "addresstablemodel.h"
-#include "bitcoinunits.h"
-#include "guiutil.h"
-#include "init.h"
-#include "optionsmodel.h"
-#include "walletmodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/bitcoinunits.h>
+#include <qt/guiutil.h>
+#include <init.h>
+#include <qt/optionsmodel.h>
+#include <qt/walletmodel.h>
 
-#include "coincontrol.h"
-#include "main.h"
-#include "wallet.h"
+#include <coincontrol.h>
+#include <main.h>
+#include <wallet.h>
 
 #include <QApplication>
 #include <QCheckBox>
@@ -442,7 +442,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     bool fLowOutput = false;
     bool fDust = false;
     CTransaction txDummy;
-    foreach(const qint64 &amount, CoinControlDialog::payAmounts)
+    Q_FOREACH(const qint64 &amount, CoinControlDialog::payAmounts)
     {
         nPayAmount += amount;
 

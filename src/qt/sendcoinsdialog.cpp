@@ -2,20 +2,20 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sendcoinsdialog.h"
-#include "ui_sendcoinsdialog.h"
+#include <qt/sendcoinsdialog.h>
+#include <qt/forms/ui_sendcoinsdialog.h>
 
-#include "addresstablemodel.h"
-#include "bitcoinunits.h"
-#include "coincontroldialog.h"
-#include "guiutil.h"
-#include "optionsmodel.h"
-#include "sendcoinsentry.h"
-#include "walletmodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/bitcoinunits.h>
+#include <qt/coincontroldialog.h>
+#include <qt/guiutil.h>
+#include <qt/optionsmodel.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/walletmodel.h>
 
-#include "base58.h"
-#include "coincontrol.h"
-#include "ui_interface.h"
+#include <base58.h>
+#include <coincontrol.h>
+#include <ui_interface.h>
 
 #include <QMessageBox>
 #include <QScrollBar>
@@ -139,7 +139,7 @@ void SendCoinsDialog::on_sendButton_clicked()
 
     // Format confirmation message
     QStringList formatted;
-    foreach(const SendCoinsRecipient &rcp, recipients)
+    Q_FOREACH(const SendCoinsRecipient &rcp, recipients)
     {
         // generate bold amount string
         QString amount = "<b>" + BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), rcp.amount);
@@ -219,7 +219,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     questionString.append("<hr />");
     qint64 totalAmount = currentTransaction.getTotalTransactionAmount() + txFee;
     QStringList alternativeUnits;
-    foreach(BitcoinUnits::Unit u, BitcoinUnits::availableUnits())
+    Q_FOREACH(BitcoinUnits::Unit u, BitcoinUnits::availableUnits())
     {
         if(u != model->getOptionsModel()->getDisplayUnit())
             alternativeUnits.append(BitcoinUnits::formatWithUnit(u, totalAmount));
@@ -383,7 +383,7 @@ bool SendCoinsDialog::handlePaymentRequest(const SendCoinsRecipient &rv)
         const payments::PaymentDetails& details = rv.paymentRequest.getDetails();
         if (details.has_expires() && (int64_t)details.expires() < GetTime())
         {
-            emit message(strSendCoins, tr("Payment request expired"),
+            Q_EMIT message(strSendCoins, tr("Payment request expired"),
                 CClientUIInterface::MSG_WARNING);
             return false;
         }
@@ -391,7 +391,7 @@ bool SendCoinsDialog::handlePaymentRequest(const SendCoinsRecipient &rv)
     else {
         CBitcoinAddress address(rv.address.toStdString());
         if (!address.IsValid()) {
-            emit message(strSendCoins, tr("Invalid payment address %1").arg(rv.address),
+            Q_EMIT message(strSendCoins, tr("Invalid payment address %1").arg(rv.address),
                 CClientUIInterface::MSG_WARNING);
             return false;
         }
@@ -457,7 +457,7 @@ void SendCoinsDialog::processSendCoinsReturn(const WalletModel::SendCoinsReturn 
         return;
     }
 
-    emit message(tr("Send Coins"), msgParams.first, msgParams.second);
+    Q_EMIT message(tr("Send Coins"), msgParams.first, msgParams.second);
 }
 
 // Coin Control: copy label "Quantity" to clipboard

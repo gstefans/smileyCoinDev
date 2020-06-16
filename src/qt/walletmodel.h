@@ -216,7 +216,7 @@ private:
     void unsubscribeFromCoreSignals();
     void checkBalanceChanged();
 
-signals:
+Q_SIGNALS:
     // Signal that balance in wallet changed
     void balanceChanged(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance);
 
@@ -240,7 +240,7 @@ signals:
     // Show progress dialog e.g. for rescan
     void showProgress(const QString &title, int nProgress);
 
-public slots:
+public Q_SLOTS:
     /* Wallet status might have changed */
     void updateStatus();
     /* New transaction, or transaction changed status */

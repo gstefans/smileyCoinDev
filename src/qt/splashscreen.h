@@ -17,7 +17,7 @@ public:
     explicit SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f);
     ~SplashScreen();
 
-public slots:
+public Q_SLOTS:
     /** Slot to call finish() method as it's not defined as slot */
     void slotFinish(QWidget *mainWin);
 

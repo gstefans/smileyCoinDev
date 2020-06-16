@@ -49,7 +49,7 @@ private:
      MINIMUM_COLUMN_WIDTH = 120
     };
 
-private slots:
+private Q_SLOTS:
     void on_lineEdit_returnPressed();
     void on_tabWidget_currentChanged(int index);
     /** open the debug.log from the current datadir */
@@ -59,7 +59,7 @@ private slots:
     /** update traffic statistics */
     void updateTrafficStats(quint64 totalBytesIn, quint64 totalBytesOut);
 
-public slots:
+public Q_SLOTS:
     void clear();
     void reject();
     void message(int category, const QString &message, bool html = false);
@@ -72,7 +72,7 @@ public slots:
     /** Scroll console view to end */
     void scrollToEnd();
 
-signals:
+Q_SIGNALS:
     // For RPC command executor
     void stopExecutor();
     void cmdRequest(const QString &command);

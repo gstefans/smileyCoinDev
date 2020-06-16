@@ -6,13 +6,13 @@
 #include "bitcoin-config.h"
 #endif
 
-#include "optionsdialog.h"
-#include "ui_optionsdialog.h"
+#include <qt/optionsdialog.h>
+#include <qt/forms/ui_optionsdialog.h>
 
-#include "bitcoinunits.h"
-#include "guiutil.h"
-#include "monitoreddatamapper.h"
-#include "optionsmodel.h"
+#include <qt/bitcoinunits.h>
+#include <qt/guiutil.h>
+#include <qt/monitoreddatamapper.h>
+#include <qt/optionsmodel.h>
 
 #include "main.h" // for CTransaction::nMinTxFee and MAX_SCRIPTCHECK_THREADS
 #include "netbase.h"
@@ -70,7 +70,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     /* Display elements init */
     QDir translations(":translations");
     ui->lang->addItem(QString("(") + tr("default") + QString(")"), QVariant(""));
-    foreach(const QString &langStr, translations.entryList())
+    Q_FOREACH(const QString &langStr, translations.entryList())
     {
         QLocale locale(langStr);
 
@@ -295,7 +295,7 @@ bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
     {
         if(object == ui->proxyIp)
         {
-            emit proxyIpChecks(ui->proxyIp, ui->proxyPort->text().toInt());
+            Q_EMIT proxyIpChecks(ui->proxyIp, ui->proxyPort->text().toInt());
         }
     }
     return QDialog::eventFilter(object, event);

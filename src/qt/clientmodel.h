@@ -86,7 +86,7 @@ private:
     void subscribeToCoreSignals();
     void unsubscribeFromCoreSignals();
 
-signals:
+Q_SIGNALS:
     void numConnectionsChanged(int count);
     void numBlocksChanged(int count, int countOfPeers);
     void alertsChanged(const QString &warnings);
@@ -95,7 +95,7 @@ signals:
     //! Fired when a message should be reported to the user
     void message(const QString &title, const QString &message, unsigned int style);
 
-public slots:
+public Q_SLOTS:
     void updateTimer();
     void updateNumConnections(int numConnections);
     void updateAlert(const QString &hash, int status);

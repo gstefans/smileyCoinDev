@@ -1,24 +1,24 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
 #include "bitcoin-config.h"
 #endif
 
-#include "bitcoingui.h"
+#include <qt/bitcoingui.h>
 
-#include "clientmodel.h"
-#include "guiconstants.h"
-#include "guiutil.h"
-#include "intro.h"
-#include "optionsmodel.h"
-#include "splashscreen.h"
-#include "utilitydialog.h"
-#include "winshutdownmonitor.h"
+#include "qt/clientmodel.h"
+#include "qt/guiconstants.h"
+#include "qt/guiutil.h"
+#include "qt/intro.h"
+#include "qt/optionsmodel.h"
+#include "qt/splashscreen.h"
+#include "qt/utilitydialog.h"
+#include "qt/winshutdownmonitor.h"
 #ifdef ENABLE_WALLET
-#include "paymentserver.h"
-#include "walletmodel.h"
+#include "qt/paymentserver.h"
+#include "qt/walletmodel.h"
 #endif
 
 #include "init.h"
@@ -38,9 +38,9 @@
 #include <QLocale>
 #include <QMessageBox>
 #include <QSettings>
+#include <QThread>
 #include <QTimer>
 #include <QTranslator>
-#include <QThread>
 
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
@@ -155,11 +155,11 @@ class BitcoinCore: public QObject
 public:
     explicit BitcoinCore();
 
-public slots:
+public Q_SLOTS:
     void initialize();
     void shutdown();
 
-signals:
+Q_SIGNALS:
     void initializeResult(int retval);
     void shutdownResult(int retval);
     void runawayException(const QString &message);
@@ -201,13 +201,13 @@ public:
     /// Get window identifier of QMainWindow (BitcoinGUI)
     WId getMainWinId() const;
 
-public slots:
+public Q_SLOTS:
     void initializeResult(int retval);
     void shutdownResult(int retval);
     /// Handle runaway exceptions. Shows a message box with the problem and quits the program.
     void handleRunawayException(const QString &message);
 
-signals:
+Q_SIGNALS:
     void requestedInitialize();
     void requestedShutdown();
     void stopThread();
@@ -238,7 +238,7 @@ BitcoinCore::BitcoinCore():
 void BitcoinCore::handleRunawayException(std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
-    emit runawayException(QString::fromStdString(strMiscWarning));
+    Q_EMIT runawayException(QString::fromStdString(strMiscWarning));
 }
 
 void BitcoinCore::initialize()
@@ -254,7 +254,7 @@ void BitcoinCore::initialize()
              */
             StartDummyRPCThread();
         }
-        emit initializeResult(rv);
+        Q_EMIT initializeResult(rv);
     } catch (std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
@@ -271,7 +271,7 @@ void BitcoinCore::shutdown()
         threadGroup.join_all();
         Shutdown();
         LogPrintf("Shutdown finished\n");
-        emit shutdownResult(1);
+        Q_EMIT shutdownResult(1);
     } catch (std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
@@ -299,7 +299,7 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
 BitcoinApplication::~BitcoinApplication()
 {
     LogPrintf("Stopping thread\n");
-    emit stopThread();
+    Q_EMIT stopThread();
     coreThread->wait();
     LogPrintf("Stopped thread\n");
 
@@ -364,7 +364,7 @@ void BitcoinApplication::startThread()
 void BitcoinApplication::requestInitialize()
 {
     LogPrintf("Requesting initialize\n");
-    emit requestedInitialize();
+    Q_EMIT requestedInitialize();
 }
 
 void BitcoinApplication::requestShutdown()
@@ -386,7 +386,7 @@ void BitcoinApplication::requestShutdown()
     ShutdownWindow::showShutdownWindow(window);
 
     // Request shutdown from core thread
-    emit requestedShutdown();
+    Q_EMIT requestedShutdown();
 }
 
 void BitcoinApplication::initializeResult(int retval)
@@ -401,7 +401,7 @@ void BitcoinApplication::initializeResult(int retval)
         paymentServer->setOptionsModel(optionsModel);
 #endif
 
-        emit splashFinished(window);
+        Q_EMIT splashFinished(window);
 
         clientModel = new ClientModel(optionsModel);
         window->setClientModel(clientModel);
@@ -483,6 +483,7 @@ int main(int argc, char *argv[])
 #endif
 
     Q_INIT_RESOURCE(bitcoin);
+    Q_INIT_RESOURCE(bitcoin_locale);
     BitcoinApplication app(argc, argv);
 #if QT_VERSION > 0x050100
     // Generate high-dpi pixmaps
