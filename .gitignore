@@ -4,6 +4,7 @@
 src/smileycoin
 src/smileycoind
 src/smileycoin-cli
+src/smileycoin-tx
 src/test/test_smileycoin
 src/qt/test/test_smileycoin-qt
 

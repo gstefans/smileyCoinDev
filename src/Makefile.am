@@ -1,3 +1,7 @@
+# Copyright (c) 2013-2016 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 DIST_SUBDIRS = univalue
 
 AM_LDFLAGS = $(PTHREAD_CFLAGS) $(HARDENED_LDFLAGS)
@@ -40,6 +44,9 @@ endif
 if BUILD_BITCOIN_CLI
   bin_PROGRAMS += smileycoin-cli
 endif
+#if BUILD_BITCOIN_TX
+bin_PROGRAMS += smileycoin-tx
+#endif
 
 
 .PHONY: FORCE check-symbols check-security
@@ -228,7 +235,7 @@ smileycoind_LDADD = \
   $(LIBLEVELDB) \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
-	$(LIBUNIVALUE)
+  $(LIBUNIVALUE)
 if ENABLE_WALLET
 smileycoind_LDADD += libbitcoin_wallet.a
 endif
@@ -249,9 +256,20 @@ smileycoin_cli_LDADD = \
   libbitcoin_common.a \
 	$(LIBUNIVALUE) \
   $(BOOST_LIBS)
+
 smileycoin_cli_SOURCES = bitcoin-cli.cpp
 smileycoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 smileycoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+#
+
+# bitcoin-tx binary #
+smileycoin_tx_LDADD = \
+  libbitcoin_common.a \
+  $(LIBUNIVALUE) \
+  $(BOOST_LIBS)
+smileycoin_tx_SOURCES = bitcoin-tx.cpp
+smileycoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+smileycoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 #
 
 if TARGET_WINDOWS

@@ -13,6 +13,7 @@ AC_CONFIG_MACRO_DIR([build-aux/m4])
 BITCOIN_DAEMON_NAME=smileycoind
 BITCOIN_GUI_NAME=smileycoin-qt
 BITCOIN_CLI_NAME=smileycoin-cli
+BITCOIN_TX_NAME=smileycoin-tx
 
 AC_CANONICAL_HOST
 
@@ -652,7 +653,7 @@ dnl univalue check
 
 need_bundled_univalue=yes
 
-if test x$build_bitcoin_wallet$build_bitcoin_cli$build_bitcoind$bitcoin_enable_qt = xnonononono; then
+if test x$build_bitcoin_wallet$build_bitcoin_cli$build_bitcoin_tx$build_bitcoind$bitcoin_enable_qt = xnononononono; then
   need_bundled_univalue=no
 else
 
@@ -692,7 +693,7 @@ fi
 
 fi
 
-AM_CONDITIONAL([EMBEDDED_UNIVALUE],[test x$need_bundled_univalue = xyes])
+AM_CONDITIONAL([EMBEDDED_UNIVALUE],[test x$need_bundled_univalue = xyes])j/b
 AC_SUBST(UNIVALUE_CFLAGS)
 AC_SUBST(UNIVALUE_LIBS)
 
@@ -705,6 +706,10 @@ AC_MSG_RESULT($build_bitcoind)
 AC_MSG_CHECKING([whether to build smileycoin-cli])
 AM_CONDITIONAL([BUILD_BITCOIN_CLI], [test x$build_bitcoin_cli = xyes])
 AC_MSG_RESULT($build_bitcoin_cli)
+
+AC_MSG_CHECKING([whether to build smileycoin-tx])
+AM_CONDITIONAL([BUILD_BITCOIN_TX], [test x$build_bitcoin_tx = xyes])
+AC_MSG_RESULT($buid_bitcoin_tx)
 
 dnl sets $bitcoin_enable_qt, $bitcoin_enable_qt_test, $bitcoin_enable_qt_dbus
 BITCOIN_QT_CONFIGURE([$use_pkgconfig], [qt5])
@@ -812,7 +817,7 @@ else
   AC_MSG_RESULT([no])
 fi
 
-if test "x$use_tests$build_bitcoind$use_qt" = "xnonono"; then
+if test "x$use_tests$build_bitcoin_tx$build_bitcoind$use_qt" = "xnononono"; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --enable-cli --enable-daemon --enable-gui or --enable-tests])
 fi
 
@@ -854,6 +859,7 @@ AC_SUBST(COPYRIGHT_YEAR, _COPYRIGHT_YEAR)
 AC_SUBST(BITCOIN_DAEMON_NAME)
 AC_SUBST(BITCOIN_GUI_NAME)
 AC_SUBST(BITCOIN_CLI_NAME)
+AC_SUBST(BITCOIN_TX_NAME)
 
 AC_SUBST(HARDENED_CXXFLAGS)
 AC_SUBST(HARDENED_CPPFLAGS)
