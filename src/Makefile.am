@@ -253,13 +253,14 @@ if TARGET_WINDOWS
 smileycoin_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-CLEANFILES = *.gcda *.gcno
-CLEANFILES += leveldb/libleveldb.a leveldb/libmemenv.a
+CLEANFILES = $(EXTRA_LIBRARIES)
+
+CLEANFILES += *.gcda *.gcno
 CLEANFILES += univalue/*.gcda univalue/*.gcno
 
 DISTCLEANFILES = obj/build.h
 
-EXTRA_DIST = leveldb
+EXTRA_DIST = 
 
 clean-local:
 	-$(MAKE) -C univalue clean
