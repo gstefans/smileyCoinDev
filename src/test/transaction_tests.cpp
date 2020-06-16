@@ -2,13 +2,14 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "data/tx_invalid.json.h"
-#include "data/tx_valid.json.h"
+#include <data/tx_invalid.json.h>
+#include <data/tx_valid.json.h>
 
-#include "key.h"
-#include "keystore.h"
-#include "main.h"
-#include "script.h"
+#include <key.h>
+#include <keystore.h>
+#include <main.h>
+#include <script.h>
+#include <core_io.h>
 
 #include <map>
 #include <string>
@@ -21,7 +22,6 @@ using namespace json_spirit;
 
 // In script_tests.cpp
 extern Array read_json(const std::string& jsondata);
-extern CScript ParseScript(string s);
 
 BOOST_AUTO_TEST_SUITE(transaction_tests)
 
