@@ -441,7 +441,7 @@ public:
     }
 };
 
-}; // end of anonymous namespace
+}; // anon namespace
 
 bool CKey::Check(const unsigned char *vch) {
     // Do not convert to OpenSSL's data structures for range-checking keys,

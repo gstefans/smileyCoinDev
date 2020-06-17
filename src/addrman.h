@@ -5,10 +5,11 @@
 #ifndef _BITCOIN_ADDRMAN
 #define _BITCOIN_ADDRMAN 1
 
-#include "netbase.h"
-#include "protocol.h"
-#include "sync.h"
-#include "util.h"
+#include <netbase.h>
+#include <protocol.h>
+#include <random.h>
+#include <sync.h>
+#include <util.h>
 
 #include <map>
 #include <set>

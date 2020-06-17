@@ -1031,6 +1031,7 @@ bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, co
 
 
 namespace {
+
 /** Wrapper that serializes like CTransaction, but with the modifications
  *  required for the signature hash done in-place
  */
@@ -1123,7 +1124,8 @@ public:
         ::Serialize(s, txTo.nLockTime, nType, nVersion);
     }
 };
-}
+
+} // anon namespace
 
 uint256 SignatureHash(const CScript &scriptCode, const CTransaction& txTo, unsigned int nIn, int nHashType)
 {
@@ -1148,7 +1150,6 @@ uint256 SignatureHash(const CScript &scriptCode, const CTransaction& txTo, unsig
     ss << txTmp << nHashType;
     return ss.GetHash();
 }
-
 
 // Valid signature cache, to avoid doing expensive ECDSA signature checking
 // twice for every transaction (once when accepted into memory pool, and

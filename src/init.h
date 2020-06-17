@@ -13,7 +13,7 @@ class CWallet;
 
 namespace boost {
     class thread_group;
-};
+} // namespace boost
 
 extern std::string strWalletFile;
 extern CWallet* pwalletMain;

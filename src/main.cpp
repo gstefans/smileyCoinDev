@@ -109,26 +109,28 @@ int miningAlgo = ALGO_SCRYPT;
 
 // Internal stuff
 namespace {
-struct CBlockIndexWorkComparator
-{
-	bool operator()(CBlockIndex *pa, CBlockIndex *pb) {
-		// First sort by most total work, ...
-		if (pa->nChainWork > pb->nChainWork) return false;
-		if (pa->nChainWork < pb->nChainWork) return true;
 
-		// ... then by earliest time received, ...
-		if (pa->nSequenceId < pb->nSequenceId) return false;
-		if (pa->nSequenceId > pb->nSequenceId) return true;
+    struct CBlockIndexWorkComparator
+    {
+      bool operator()(CBlockIndex *pa, CBlockIndex *pb) {
+        // First sort by most total work, ...
+        if (pa->nChainWork > pb->nChainWork) return false;
+        if (pa->nChainWork < pb->nChainWork) return true;
 
-		// Use pointer address as tie breaker (should only happen with blocks
-		// loaded from disk, as those all have id 0).
-		if (pa < pb) return false;
-		if (pa > pb) return true;
+        // ... then by earliest time received, ...
+        if (pa->nSequenceId < pb->nSequenceId) return false;
+        if (pa->nSequenceId > pb->nSequenceId) return true;
 
-		// Identical blocks.
-		return false;
-	}
-};
+        // Use pointer address as tie breaker (should only happen with blocks
+        // loaded from disk, as those all have id 0).
+        if (pa < pb) return false;
+        if (pa > pb) return true;
+
+        // Identical blocks.
+        return false;
+    }
+
+} // anon namespace
 
 CBlockIndex *pindexBestInvalid;
 // may contain all CBlockIndex*'s that have validness >=BLOCK_VALID_TRANSACTIONS, and must contain those who aren't failed
@@ -167,21 +169,23 @@ map<uint256, pair<NodeId, list<uint256>::iterator> > mapBlocksToDownload;
 // These functions dispatch to one or all registered wallets
 
 namespace {
-struct CMainSignals {
-	// Notifies listeners of updated transaction data (passing hash, transaction, and optionally the block it is found in.
-	boost::signals2::signal<void (const uint256 &, const CTransaction &, const CBlock *)> SyncTransaction;
-	// Notifies listeners of an erased transaction (currently disabled, requires transaction replacement).
-	boost::signals2::signal<void (const uint256 &)> EraseTransaction;
-	// Notifies listeners of an updated transaction without new data (for now: a coinbase potentially becoming visible).
-	boost::signals2::signal<void (const uint256 &)> UpdatedTransaction;
-	// Notifies listeners of a new active block chain.
-	boost::signals2::signal<void (const CBlockLocator &)> SetBestChain;
-	// Notifies listeners about an inventory item being seen on the network.
-	boost::signals2::signal<void (const uint256 &)> Inventory;
-	// Tells listeners to broadcast their data.
-	boost::signals2::signal<void ()> Broadcast;
-} g_signals;
-}
+
+    struct CMainSignals {
+      // Notifies listeners of updated transaction data (passing hash, transaction, and optionally the block it is found in.
+      boost::signals2::signal<void (const uint256 &, const CTransaction &, const CBlock *)> SyncTransaction;
+      // Notifies listeners of an erased transaction (currently disabled, requires transaction replacement).
+      boost::signals2::signal<void (const uint256 &)> EraseTransaction;
+      // Notifies listeners of an updated transaction without new data (for now: a coinbase potentially becoming visible).
+      boost::signals2::signal<void (const uint256 &)> UpdatedTransaction;
+      // Notifies listeners of a new active block chain.
+      boost::signals2::signal<void (const CBlockLocator &)> SetBestChain;
+      // Notifies listeners about an inventory item being seen on the network.
+      boost::signals2::signal<void (const uint256 &)> Inventory;
+      // Tells listeners to broadcast their data.
+      boost::signals2::signal<void ()> Broadcast;
+    } g_signals;
+
+} // anon namespace
 
 void RegisterWallet(CWalletInterface* pwalletIn) {
 	g_signals.SyncTransaction.connect(boost::bind(&CWalletInterface::SyncTransaction, pwalletIn, _1, _2, _3));
@@ -312,7 +316,7 @@ void MarkBlockAsReceived(const uint256 &hash, NodeId nodeFrom = -1) {
 		mapBlocksInFlight.erase(itInFlight);
 	}
 
-}
+} // anon namespace
 
 // Requires cs_main.
 bool AddBlockToQueue(NodeId nodeid, const uint256 &hash) {
