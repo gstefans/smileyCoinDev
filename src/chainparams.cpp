@@ -35,13 +35,12 @@ public:
         pchMessageStart[3] = 0xdb;
         vAlertPubKey = ParseHex("04d1832d7d0c59634d67d3023379403014c2878d0c2372d175219063a48fa06e6d429e09f36d3196ec544c2cfdd12d6fe510a399595f75ebb6da238eb5f70f2072");
         nDefaultPort = 11337;
-        nRPCPort = 14242;
 
-        bnProofOfWorkLimit[ALGO_SHA256D] = CBigNum(~uint256(0) >> 20); // 1.00000000
-        bnProofOfWorkLimit[ALGO_SCRYPT]  = CBigNum(~uint256(0) >> 20);
-        bnProofOfWorkLimit[ALGO_GROESTL] = CBigNum(~uint256(0) >> 20); // 0.00195311
-        bnProofOfWorkLimit[ALGO_SKEIN]   = CBigNum(~uint256(0) >> 20); // 0.00195311
-        bnProofOfWorkLimit[ALGO_QUBIT]   = CBigNum(~uint256(0) >> 20); // 0.00097655
+        bnProofOfWorkLimit[ALGO_SHA256D] = ~uint256(0) >> 20; // 1.00000000
+        bnProofOfWorkLimit[ALGO_SCRYPT]  = ~uint256(0) >> 20;
+        bnProofOfWorkLimit[ALGO_GROESTL] = ~uint256(0) >> 20; // 0.00195311
+        bnProofOfWorkLimit[ALGO_SKEIN]   = ~uint256(0) >> 20; // 0.00195311
+        bnProofOfWorkLimit[ALGO_QUBIT]   = ~uint256(0) >> 20; // 0.00097655
 
         // Build the genesis block.
         const char* pszTimestamp = "NY Times 18/Aug/2014 Bitcoin's Price Falls 12%, to Lowest Value Since May";

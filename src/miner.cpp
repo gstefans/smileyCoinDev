@@ -530,7 +530,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 {
   int algo = pblock->GetAlgo();
   uint256 hashPoW = pblock->GetPoWHash(algo);
-  uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+  uint256 hashTarget = uint256().SetCompact(pblock->nBits);
 
   if (hashPoW > hashTarget)
   return false;
@@ -627,7 +627,7 @@ void static BitcoinMiner(CWallet *pwallet)
       // Search
       //
       int64_t nStart = GetTime();
-      uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+      uint256 hashTarget = uint256().SetCompact(pblock->nBits);
       uint256 hashbuf[2];
       uint256& hash = *alignup<16>(hashbuf);
       while (true)
@@ -751,7 +751,7 @@ void static BitcoinMiner(CWallet *pwallet)
         // Search
         //
         int64_t nStart = GetTime();
-        uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+        uint256 hashTarget = uint256().SetCompact(pblock->nBits);
         while(true)
         {
           unsigned int nHashesDone = 0;
@@ -870,7 +870,7 @@ void static BitcoinMiner(CWallet *pwallet)
         //
         // Search
         //
-        uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+        uint256 hashTarget = uint256().SetCompact(pblock->nBits);
         int64_t nStart = GetTime();
         uint256 hash;
         while(true)
