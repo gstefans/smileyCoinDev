@@ -17,7 +17,7 @@ jobs:
       run: make
       working-directory: depends/
     - name: autogen
-      run ./autogen.sh
+      run: ./autogen.sh
       working-directory: ./
     - name: configure
       run: ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
