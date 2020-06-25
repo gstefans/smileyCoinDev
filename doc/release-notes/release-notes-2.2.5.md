@@ -7,4 +7,6 @@
 - Add `datacarriersize` option to allow the wallet to accept an arbitrarily 
   large `OP_RETURN`
 - Add a `sequence` field to `createrawtransaction`, allowing the user to set
-  an arbitrary `nSequence` to the transaction.
+  an arbitrary `nSequence` to the transaction
+- Rename `OP_NOP2` to `OP_CHECKLOCKTIMEVERIFY` with fallbacks to preserve 
+  compatibility
