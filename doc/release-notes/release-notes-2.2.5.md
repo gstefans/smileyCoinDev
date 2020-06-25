@@ -10,3 +10,4 @@
   an arbitrary `nSequence` to the transaction
 - Rename `OP_NOP2` to `OP_CHECKLOCKTIMEVERIFY` with fallbacks to preserve 
   compatibility
+- Building from source now requires a C++11 compatible compiler.
