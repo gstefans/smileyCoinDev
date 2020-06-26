@@ -11,3 +11,4 @@
 - Rename `OP_NOP2` to `OP_CHECKLOCKTIMEVERIFY` with fallbacks to preserve 
   compatibility
 - Building from source now requires a C++11 compatible compiler.
+- Fix build error due to API change in Boost versions > 1.69
