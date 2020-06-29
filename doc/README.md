@@ -3,7 +3,7 @@ Smileycoin
 
 Copyright (c) 2016 Auroracoin Developers
 
-Copyright (c) 2017-2017 Smileycoin Developers
+Copyright (c) 2017-2020 Smileycoin Developers
 
 Running
 ---------------------
