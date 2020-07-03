@@ -144,7 +144,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, int algo)
     return NULL;
   }
 
-  if (pindexPrev->nHeight < nRichForkHeight && algo != ALGO_SCRYPT) {
+  if (!TestNet() && pindexPrev->nHeight < nRichForkHeight && algo != ALGO_SCRYPT) {
     error("MultiAlgo is not yet active. Current block height %d, height multialgo becomes active %d", pindexPrev->nHeight, nRichForkHeight);
     return NULL;
   }
@@ -695,7 +695,12 @@ void static BitcoinMiner(CWallet *pwallet)
           // Update nTime every few seconds
           UpdateTime(*pblock, pindexPrev);
           nBlockTime = ByteReverse(pblock->nTime);
-        }
+          if (TestNet())
+          {
+              // Changing pblock->nTime can change work required on testnet:
+              nBlockBits = ByteReverse(pblock->nBits);
+              hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+          }
       }
     }
   }
@@ -825,6 +830,15 @@ void static BitcoinMiner(CWallet *pwallet)
           UpdateTime(*pblock, pindexPrev);
           nBlockTime = ByteReverse(pblock->nTime);
         }
+          // Update nTime every few seconds
+          UpdateTime(*pblock, pindexPrev);
+          nBlockTime = ByteReverse(pblock->nTime);
+          if (TestNet())
+          {
+            // Changing pblock->nTime can change work required on testnet:
+            nBlockBits = ByteReverse(pblock->nBits);
+            hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+          }
       }
     }
   }
@@ -924,7 +938,12 @@ void static BitcoinMiner(CWallet *pwallet)
           // Update nTime every few seconds
           UpdateTime(*pblock, pindexPrev);
           // nBlockTime = ByteReverse(pblock->nTime);
-        }
+          if (TestNet())
+          {
+            // Changing pblock->nTime can change work required on testnet:
+            nBlockBits = ByteReverse(pblock->nBits);
+            hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+          }
       }
     }
   }
