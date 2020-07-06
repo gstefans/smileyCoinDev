@@ -841,7 +841,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
 		return state.DoS(100, error("AcceptToMemoryPool: : coinbase as individual tx"),
 				REJECT_INVALID, "coinbase");
 
-	// Rather not work on nonstandard transactions (unless -testnet/)
+	// Rather not work on nonstandard transactions (unless -testnet/-regtest)
 	string reason;
 	if (Params().NetworkID() == CChainParams::MAIN && !IsStandardTx(tx, reason))
 		return state.DoS(0, error("AcceptToMemoryPool : nonstandard transaction: %s", reason), REJECT_NONSTANDARD, reason);
@@ -2673,7 +2673,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 	// Check amount of algos in row
 	if(pindexPrev) {
 		// Check count of sequence of same algo
-		if ( (TestNet() && (nHeight >= 100)) || (nHeight > (nRichForkheight + nBlockSequentialAlgoMaxCount)) ) {
+		if ( (TestNet() && (nHeight >= 100)) || (nHeight > (nRichForkHeight + nBlockSequentialAlgoMaxCount)) ) {
 			int nAlgo = block.GetAlgo();
 			int nAlgoCount = 1;
 			CBlockIndex* piPrev = pindexPrev;

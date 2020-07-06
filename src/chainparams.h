@@ -33,6 +33,7 @@ public:
     enum Network {
         MAIN,
         TESTNET,
+        REGTEST,
 
         MAX_NETWORK_TYPES
     };
@@ -84,12 +85,16 @@ const CChainParams &Params();
 //Sets the params returned by Params() to those for the given network.
 void SelectParams(CChainParams::Network network);
 
-//Looks for -reg1test or -testnet and then calls SelectParams as appropriate.
+//Looks for -regtest or -testnet and then calls SelectParams as appropriate.
 bool SelectParamsFromCommandLine();
 
 inline bool TestNet() {
     // Note: it's deliberate that this returns "false" for regression test mode.
     return Params().NetworkID() == CChainParams::TESTNET;
+}
+
+inline bool RegTest() {
+    return Params().NetworkID() == CChainParams::REGTEST;
 }
 
 #endif

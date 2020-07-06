@@ -67,11 +67,24 @@ namespace Checkpoints
         1
     };
 
+    static MapCheckpoints mapCheckpointsRegtest =
+        boost::assign::map_list_of
+        ( 0, uint256("0x2a8e100939494904af825b488596ddd536b3a96226ad02e0f7ab7ae472b27a8e"))
+        ;
+    static const CCheckpointData dataRegtest = {
+        &mapCheckpointsRegtest,
+        1428109151,
+        1,
+        1
+    };
+
     const CCheckpointData &Checkpoints() {
         if (Params().NetworkID() == CChainParams::TESTNET)
             return dataTestnet;
-        else 
+        else if (Params().NetworkID() == CChainParams::MAIN)
             return data;
+        else
+            return dataRegtest;
     }
 
     bool CheckBlock(int nHeight, const uint256& hash)
