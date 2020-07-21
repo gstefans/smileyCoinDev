@@ -290,7 +290,7 @@ void BitcoinGUI::createActions(bool fIsTestnet)
     serviceAction->setStatusTip(tr("Browse Smileycoin services or create new one"));
     serviceAction->setToolTip(serviceAction->statusTip());
     serviceAction->setCheckable(true);
-    serviceAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    serviceAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
     tabGroup->addAction(serviceAction);
 
     ticketAction = new QAction(QIcon(":/icons/history"), tr("&Tickets"), this);
@@ -299,6 +299,13 @@ void BitcoinGUI::createActions(bool fIsTestnet)
     ticketAction->setCheckable(true);
     ticketAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(ticketAction);
+
+    traceabilityAction = new QAction(QIcon(":/icons/overview"), tr("&Traceability"), this);
+    traceabilityAction->setStatusTip(tr("Create new traceability service or track products"));
+    traceabilityAction->setToolTip(traceabilityAction->statusTip());
+    traceabilityAction->setCheckable(true);
+    traceabilityAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    tabGroup->addAction(traceabilityAction);
 
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
@@ -318,6 +325,8 @@ void BitcoinGUI::createActions(bool fIsTestnet)
     connect(serviceAction, SIGNAL(triggered()), this, SLOT(gotoServicePage()));
     connect(ticketAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(ticketAction, SIGNAL(triggered()), this, SLOT(gotoTicketPage()));
+    connect(traceabilityAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(traceabilityAction, SIGNAL(triggered()), this, SLOT(gotoTraceabilityPage()));
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
     quitAction->setStatusTip(tr("Quit application"));
@@ -460,6 +469,7 @@ void BitcoinGUI::createToolBars()
         toolbar->addAction(addressBookAction);
         toolbar->addAction(serviceAction);
         toolbar->addAction(ticketAction);
+        toolbar->addAction(traceabilityAction);
     }
 }
 
@@ -525,6 +535,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     historyAction->setEnabled(enabled);
     serviceAction->setEnabled(enabled);
     ticketAction->setEnabled(enabled);
+    traceabilityAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
     changePassphraseAction->setEnabled(enabled);
@@ -588,6 +599,7 @@ void BitcoinGUI::createTrayIconMenu()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openRPCConsoleAction);
+    trayIconMenu->addAction(traceabilityAction);
 #ifndef Q_OS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
@@ -676,6 +688,12 @@ void BitcoinGUI::gotoTicketPage()
 {
     ticketAction->setChecked(true);
     if (walletFrame) walletFrame->gotoTicketPage();
+}
+
+void BitcoinGUI::gotoTraceabilityPage()
+{
+    traceabilityAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoTraceabilityPage();
 }
 
 void BitcoinGUI::gotoSignMessageTab(QString addr)

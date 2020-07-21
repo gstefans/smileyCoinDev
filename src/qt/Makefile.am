@@ -36,6 +36,7 @@ QT_FORMS_UI = \
   forms/servicepage.ui \
   forms/ticketpage.ui \
   forms/signverifymessagedialog.ui \
+  forms/traceabilitypage.ui \
   forms/transactiondescdialog.ui
 
 QT_MOC_CPP = \
@@ -75,6 +76,7 @@ QT_MOC_CPP = \
   moc_servicetablemodel.cpp \
   moc_tickettablemodel.cpp \
   moc_ticketpage.cpp \
+  moc_traceabilitypage.cpp \
   moc_signverifymessagedialog.cpp \
   moc_splashscreen.cpp \
   moc_trafficgraphwidget.cpp \
@@ -96,6 +98,7 @@ QT_MOC = \
   bitcoin.moc \
   intro.moc \
   overviewpage.moc \
+  traceabilitypage.moc \
   rpcconsole.moc
 
 QT_QRC_CPP = qrc_bitcoin.cpp
@@ -144,6 +147,7 @@ BITCOIN_QT_H = \
   ticketpage.h \
   servicetablemodel.h \
   tickettablemodel.h \
+  traceabilitypage.h \
   signverifymessagedialog.h \
   splashscreen.h \
   trafficgraphwidget.h \
@@ -247,6 +251,7 @@ BITCOIN_QT_CPP += \
   ticketpage.cpp \
   servicetablemodel.cpp \
   tickettablemodel.cpp \
+  traceabilitypage.cpp \
   signverifymessagedialog.cpp \
   transactiondesc.cpp \
   transactiondescdialog.cpp \

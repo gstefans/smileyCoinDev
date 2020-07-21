@@ -56,6 +56,8 @@ public slots:
     void gotoServicePage();
     /** Switch to ticket page */
     void gotoTicketPage();
+    /** Switch to traceability page */
+    void gotoTraceabilityPage();
     /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
