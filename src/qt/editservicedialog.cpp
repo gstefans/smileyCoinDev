@@ -11,6 +11,7 @@
 #include "guiutil.h"
 #include "base58.h"
 #include "guiconstants.h"
+#include "util.h"
 #include "coincontroldialog.h"
 #include "coincontrol.h"
 #include "optionsmodel.h"
@@ -221,7 +222,6 @@ void EditServiceDialog::accept()
          }
          case NewTicket:
          {
-
              CBitcoinAddress tAddress = CBitcoinAddress(ui->ticketAddress->text().toStdString());
              if (!tAddress.IsValid()) {
                  QMessageBox::warning(this, windowTitle(),

@@ -7,7 +7,6 @@
 #include "addressbookpage.h"
 #include "servicepage.h"
 #include "ticketpage.h"
-#include "traceabilitypage.h"
 #include "askpassphrasedialog.h"
 #include "bitcoingui.h"
 #include "clientmodel.h"
@@ -24,6 +23,7 @@
 #include "servicelistdb.h"
 #include "servicetablemodel.h"
 #include "tickettablemodel.h"
+#include "traceabilitypage.h"
 
 #include "ui_interface.h"
 
@@ -75,7 +75,9 @@ WalletView::WalletView(QWidget *parent):
     //ticketPage->setTicketModel(walletModel->getTicketTableModel());
     ticketPage->setWindowFlags(Qt::Widget);
 
-    traceabilityPage->setWindowFlags(Qt::Widget); //= new TraceabilityPage();
+    traceabilityPage = new TraceabilityPage(TraceabilityPage::ForCreatingTransaction, this);
+    //traceabilityPage = new TraceabilityPage(this);
+    traceabilityPage->setWindowFlags(Qt::Widget);
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
@@ -99,8 +101,6 @@ WalletView::WalletView(QWidget *parent):
     connect(sendCoinsPage, SIGNAL(message(QString,QString,unsigned int)), this, SIGNAL(message(QString,QString,unsigned int)));
     // Pass through messages from transactionView
     connect(transactionView, SIGNAL(message(QString,QString,unsigned int)), this, SIGNAL(message(QString,QString,unsigned int)));
-    //Pass through messages from traceabilityPage
-    //connect(traceabilityPage, SIGNAL(message(QString,QString,unsigned int)), this, SIGNAL(message(QString,QString,unsigned int)));
 }
 
 WalletView::~WalletView()
@@ -209,7 +209,7 @@ void WalletView::gotoTicketPage() {
     setCurrentWidget(ticketPage);
 }
 
-void WalletView::gotoTraceabilityPage(QString addr)
+void WalletView::gotoTraceabilityPage()
 {
     traceabilityPage->setModel(walletModel);
     setCurrentWidget(traceabilityPage);

@@ -43,6 +43,8 @@ bool CServiceList::SetForked(const bool &fFork)
 
 bool CServiceList::UpdateServiceInfo(const std::map<CScript, std::tuple<std::string, std::string, std::string> > &map)
 {
+    LogPrintStr("UPDATESERVICEINFO");
+
     //Prenta ut allar services i database
     /*for(std::map<CScript, std::tuple<std::string, std::string, std::string> >::iterator it = maddresses.begin(); it != maddresses.end(); it++)
     {
@@ -105,6 +107,8 @@ bool CServiceList::UpdateServiceAddressInfo(const std::map<CScript, std::tuple<s
 // TODO: We should try to get rid of this and write the height undo information to the disk instead.
 bool CServiceList::UpdateServiceAddressHeights()
 {
+    LogPrintStr("UPDATESERVICEADDRESSHEIGHTS");
+
     if(!fForked)
         return true;
 

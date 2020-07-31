@@ -10,6 +10,7 @@
 #include "core.h"
 #include "uint256.h"
 #include "base58.h"
+#include "rpcserver.h"
 
 #include <stdint.h>
 

@@ -297,14 +297,14 @@ void BitcoinGUI::createActions(bool fIsTestnet)
     ticketAction->setStatusTip(tr("Browse available tickets"));
     ticketAction->setToolTip(ticketAction->statusTip());
     ticketAction->setCheckable(true);
-    ticketAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    ticketAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     tabGroup->addAction(ticketAction);
 
     traceabilityAction = new QAction(QIcon(":/icons/overview"), tr("&Traceability"), this);
     traceabilityAction->setStatusTip(tr("Create new traceability service or track products"));
     traceabilityAction->setToolTip(traceabilityAction->statusTip());
     traceabilityAction->setCheckable(true);
-    traceabilityAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    traceabilityAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
     tabGroup->addAction(traceabilityAction);
 
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -599,7 +599,6 @@ void BitcoinGUI::createTrayIconMenu()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openRPCConsoleAction);
-    trayIconMenu->addAction(traceabilityAction);
 #ifndef Q_OS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
