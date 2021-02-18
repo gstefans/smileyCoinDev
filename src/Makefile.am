@@ -1,9 +1,21 @@
+DIST_SUBDIRS = univalue
+
 AM_LDFLAGS = $(PTHREAD_CFLAGS) $(HARDENED_LDFLAGS) $(LIBTOOL_LDFLAGS)
 AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
+if EMBEDDED_UNIVALUE
+LIBUNIVALUE = univalue/libunivalue.la
+
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+else
+LIBUNIVALUE = $(UNIVALUE_LIBS)
+endif
+
 BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_FLAGS) -msse2
+BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
 EXTRA_LIBRARIES += \
   libbitcoin_server.a \
@@ -202,6 +214,7 @@ smileycoind_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
   $(LIBLEVELDB) \
+	$(LIBUNIVALUE) \
   $(LIBMEMENV)
 if ENABLE_WALLET
 smileycoind_LDADD += libbitcoin_wallet.a
@@ -223,6 +236,7 @@ smileycoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
   $(BOOST_LIBS) \
+	$(LIBUNIVALUE) \
   $(SSL_LIBS) \
   $(CRYPTO_LIBS)
 
@@ -237,6 +251,7 @@ endif
 smileycoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS)
 
 CLEANFILES = $(EXTRA_LIBRARIES)
+
 CLEANFILES += *.gcda *.gcno
 CLEANFILES += compat/*.gcda compat/*.gcno
 CLEANFILES += consensus/*.gcda consensus/*.gcno
@@ -256,6 +271,7 @@ DISTCLEANFILES = obj/build.h
 EXTRA_DIST =
 
 clean-local:
+	-$(MAKE) -C univalue clean
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
 	-rm -f config.h
 
