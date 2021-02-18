@@ -33,16 +33,19 @@ static bool AppInitRPC(int argc, char* argv[])
         return false;
     }
 
-    if (argc<2 || mapArgs.count("-?") || mapArgs.count("--help"))
+    if (argc<2 || mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version"))
     {
-        // First part of help message is specific to RPC client
-        std::string strUsage = _("Smileycoin Core RPC client version") + " " + FormatFullVersion() + "\n\n" +
-            _("Usage:") + "\n" +
+        std::string strUsage = _("Smileycoin Core RPC client version") + " " + FormatFullVersion() + "\n\n";
+
+        if (!mapArgs.count("-version"))
+        {
+            strUsage += "\n" + _("Usage:") + "\n" +
               "  smileycoin-cli [options] <command> [params]  " + _("Send command to Smileycoin Core") + "\n" +
               "  smileycoin-cli [options] help                " + _("List commands") + "\n" +
               "  smileycoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
 
-        strUsage += "\n" + HelpMessageCli(true);
+            strUsage += "\n" + HelpMessageCli(true);
+        }
 
         fprintf(stdout, "%s", strUsage.c_str());
         return false;

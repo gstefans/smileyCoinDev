@@ -4,7 +4,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <rpc/server.h>
-#include <rpc/client.h>
 #include <init.h>
 #include <main.h>
 #include <noui.h>
@@ -60,19 +59,23 @@ bool AppInit(int argc, char* argv[])
             return false;
         }
 
-        if (mapArgs.count("-?") || mapArgs.count("--help"))
+        if (mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version"))
         {
-            // First part of help message is specific to bitcoind / RPC client
-            std::string strUsage = _("Smileycoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
-                _("Usage:") + "\n" +
-                  "  smileycoind [options]                     " + _("Start Smileycoin Core Daemon") + "\n" +
-                _("Usage (deprecated, use smileycoin-cli):") + "\n" +
-                  "  smileycoind [options] <command> [params]  " + _("Send command to Smileycoin Core") + "\n" +
-                  "  smileycoind [options] help                " + _("List commands") + "\n" +
-                  "  smileycoind [options] help <command>      " + _("Get help for a command") + "\n";
+            std::string strUsage = _("Smileycoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n";
 
-            strUsage += "\n" + HelpMessage(HMM_BITCOIND);
-            strUsage += "\n" + HelpMessageCli(false);
+            if (!mapArgs.count("-version"))
+            {
+                strUsage += "\n" + _("Usage:") + "\n" +
+                    "  smileycoind [options]                     " + _("Start Smileycoin Core Daemon") + "\n" +
+                    _("Usage (deprecated, use smileycoin-cli):") + "\n" +
+                    "  smileycoind [options] <command> [params]  " + _("Send command to Smileycoin Core") + "\n" +
+                    "  smileycoind [options] help                " + _("List commands") + "\n" +
+                    "  smileycoind [options] help <command>      " + _("Get help for a command") + "\n";
+
+                strUsage += "\n" + HelpMessage(HMM_BITCOIND);
+                strUsage += "\n" + HelpMessageCli(false);
+            }
+
 
             fprintf(stdout, "%s", strUsage.c_str());
             return false;
