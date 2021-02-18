@@ -3,21 +3,21 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcserver.h"
-#include "base58.h"
-#include "chainparams.h"
-#include "init.h"
-#include "net.h"
-#include "main.h"
-#include "miner.h"
+#include <rpc/server.h>
+#include <base58.h>
+#include <chainparams.h>
+#include <init.h>
+#include <net.h>
+#include <main.h>
+#include <miner.h>
 #ifdef ENABLE_WALLET
-#include "db.h"
-#include "wallet.h"
+#include <db.h>
+#include <wallet.h>
 #endif
 #include <stdint.h>
 
-#include "json/json_spirit_utils.h"
-#include "json/json_spirit_value.h"
+#include <json/json_spirit_utils.h>
+#include <json/json_spirit_value.h>
 
 using namespace json_spirit;
 using namespace std;

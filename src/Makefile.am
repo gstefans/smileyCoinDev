@@ -71,9 +71,9 @@ BITCOIN_CORE_H = \
   net.h \
   noui.h \
   protocol.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcserver.h \
+  rpc/client.h \
+  rpc/protocol.h \
+  rpc/server.h \
   script.h \
   serialize.h \
   sync.h \
@@ -139,12 +139,12 @@ libbitcoin_server_a_SOURCES = \
   richlistdb.cpp \
   servicelistdb.cpp \
   serviceitemlistdb.cpp \
-  rpcblockchain.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/blockchain.cpp \
+  rpc/mining.cpp \
+  rpc/misc.cpp \
+  rpc/net.cpp \
+  rpc/rawtransaction.cpp \
+  rpc/server.cpp \
   txdb.cpp \
   txmempool.cpp \
   $(JSON_H) \
@@ -173,7 +173,7 @@ libbitcoin_common_a_SOURCES = \
   key.cpp \
   netbase.cpp \
   protocol.cpp \
-  rpcprotocol.cpp \
+  rpc/protocol.cpp \
   script.cpp \
   sync.cpp \
   util.cpp \
@@ -202,7 +202,7 @@ endif
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
 nodist_libbitcoin_common_a_SOURCES = $(srcdir)/obj/build.h

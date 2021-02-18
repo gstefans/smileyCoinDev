@@ -6,17 +6,17 @@
 #ifndef _BITCOINRPC_SERVER_H_
 #define _BITCOINRPC_SERVER_H_ 1
 
-#include "uint256.h"
-#include "rpcprotocol.h"
+#include <uint256.h>
+#include <rpc/protocol.h>
 
 #include <list>
 #include <map>
 #include <stdint.h>
 #include <string>
 
-#include "json/json_spirit_reader_template.h"
-#include "json/json_spirit_utils.h"
-#include "json/json_spirit_writer_template.h"
+#include <json/json_spirit_reader_template.h>
+#include <json/json_spirit_utils.h>
+#include <json/json_spirit_writer_template.h>
 
 // Boost Support for 1.70+
 #if BOOST_VERSION >= 107000

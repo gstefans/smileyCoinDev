@@ -3,28 +3,26 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "base58.h"
-#include "init.h"
-#include "main.h"
-#include "net.h"
-#include "netbase.h"
-#include "rpcserver.h"
-#include "util.h"
-#include "richlistdb.h"
-#include "servicelistdb.h"
-#include "serviceitemlistdb.h"
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "OCDFAInspection"
+#include <base58.h>
+#include <init.h>
+#include <main.h>
+#include <net.h>
+#include <netbase.h>
+#include <rpc/server.h>
+#include <util.h>
+#include <richlistdb.h>
+#include <servicelistdb.h>
+#include <serviceitemlistdb.h>
 #ifdef ENABLE_WALLET
-#include "wallet.h"
-#include "walletdb.h"
+#include <wallet.h>
+#include <walletdb.h>
 #endif
 
 #include <stdint.h>
 
 #include <boost/assign/list_of.hpp>
-#include "json/json_spirit_utils.h"
-#include "json/json_spirit_value.h"
+#include <json/json_spirit_utils.h>
+#include <json/json_spirit_value.h>
 
 using namespace std;
 using namespace boost;
@@ -1192,5 +1190,3 @@ Value verifymessage(const Array& params, bool fHelp)
 
     return (pubkey.GetID() == keyID);
 }
-
-#pragma clang diagnostic pop
