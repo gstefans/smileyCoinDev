@@ -87,6 +87,18 @@ jobs:
     - name: dependencies
       run: |
         brew install automake libtool boost miniupnpc openssl pkg-config protobuf python qt libevent qrencode
+    - name: cache depends
+      id: cache-depends
+      uses: actions/cache@v2
+      with:
+        path: depends
+        key: depends-${{ hashFiles('**/depends/built/x86_64-apple-darwin18/*/*.tar.gz.hash') }}
+    - name: compile depends
+      run: cd depends && make
+    - name: configure
+      run: |
+        ./autogen.sh
+        CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --prefix=/
     - name: configure
       run: |
         ./autogen.sh
