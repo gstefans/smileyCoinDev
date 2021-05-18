@@ -1,8 +1,8 @@
 package=boost
-$(package)_version=1_70_0
-$(package)_download_path=https://dl.bintray.com/boostorg/release/1.70.0/source/
+$(package)_version=1_71_0
+$(package)_download_path=https://dl.bintray.com/boostorg/release/$(subst _,.,$($(package)_version))/source/
 $(package)_file_name=$(package)_$($(package)_version).tar.bz2
-$(package)_sha256_hash=430ae8354789de4fd19ee52f3b1f739e1fba576f0aded0897c3c2bc00fb38778
+$(package)_sha256_hash=d73a8da01e8bf8c7eda40b4c84915071a8c8a0df4a6734537ddde4a8580524ee
 
 define $(package)_set_vars
 $(package)_config_opts_release=variant=release
@@ -17,19 +17,21 @@ $(package)_config_opts_i686_mingw32=address-model=32
 $(package)_config_opts_i686_linux=address-model=32 architecture=x86
 $(package)_toolset_$(host_os)=gcc
 $(package)_toolset_darwin=clang
+ifneq (,$(findstring clang,$($(package)_cxx)))
+  $(package)_toolset_$(host_os)=clang
+endif
 $(package)_archiver_$(host_os)=$($(package)_ar)
-$(package)_archiver_darwin=$($(package)_libtool)
 $(package)_config_libraries=chrono,filesystem,system,thread,test,program_options
 $(package)_cxxflags=-std=c++11 -fvisibility=hidden
 $(package)_cxxflags_linux=-fPIC
 endef
 
 define $(package)_preprocess_cmds
-  echo "using $(boost_toolset_$(host_os)) : : $($(package)_cxx) : <cxxflags>\"$($(package)_cxxflags) $($(package)_cppflags)\" <linkflags>\"$($(package)_ldflags)\" <archiver>\"$(boost_archiver_$(host_os))\" <striper>\"$(host_STRIP)\"  <ranlib>\"$(host_RANLIB)\" <rc>\"$(host_WINDRES)\" : ;" > user-config.jam
+  echo "using $($(package)_toolset_$(host_os)) : : $($(package)_cxx) : <cxxflags>\"$($(package)_cxxflags) $($(package)_cppflags)\" <linkflags>\"$($(package)_ldflags)\" <archiver>\"$(boost_archiver_$(host_os))\" <striper>\"$(host_STRIP)\"  <ranlib>\"$(host_RANLIB)\" <rc>\"$(host_WINDRES)\" : ;" > user-config.jam
 endef
 
 define $(package)_config_cmds
-  ./bootstrap.sh --without-icu --with-libraries=$(boost_config_libraries)
+  ./bootstrap.sh --without-icu --with-libraries=$($(package)_config_libraries) --with-toolset$($(package)_toolset_$(host_os))
 endef
 
 define $(package)_build_cmds
