@@ -25,6 +25,7 @@ endif
 $(package)_config_libraries=chrono,filesystem,system,thread,test,program_options
 $(package)_cxxflags=-std=c++11 -fvisibility=hidden
 $(package)_cxxflags_linux=-fPIC
+$(package)_cxxflags_darwin=-fcf-protection=full
 endef
 
 define $(package)_preprocess_cmds
@@ -32,7 +33,7 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_config_cmds
-  ./bootstrap.sh --without-icu --with-libraries=$($(package)_config_libraries) --with-toolset$($(package)_toolset_$(host_os)) --with-bjam=b2
+  ./bootstrap.sh --without-icu --with-libraries=$($(package)_config_libraries) --with-toolset=$($(package)_toolset_$(host_os)) --with-bjam=b2
 endef
 
 define $(package)_build_cmds
