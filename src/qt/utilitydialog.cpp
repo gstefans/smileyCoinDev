@@ -64,7 +64,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool versionOnly) :
     ui->setupUi(this);
     GUIUtil::restoreWindowGeometry("nHelpMessageDialogWindow", this->size(), this);
 
-    QString version = tr("SmileyCoin Core") + " " + tr("version") +  " " + QString::fromString(FormatFulLVersion());
+    QString version = tr("SmileyCoin Core") + " " + tr("version") +  " " + QString::fromStdString(FormatFullVersion());
     QString header = tr("Usage:") + "\n" +
         "  smileycoin-qt [" + tr("command-line options") + "]                     " + "\n";
 
@@ -81,7 +81,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool versionOnly) :
 
     // Set help message text
     if (versionOnly)
-        ui->helpmessageLabel->setText(version);
+        ui->helpMessageLabel->setText(version);
     else
         ui->helpMessageLabel->setText(version + "\n" + header + "\n" + coreOptions + "\n" + uiOptions);
 }

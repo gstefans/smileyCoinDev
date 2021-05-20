@@ -73,7 +73,6 @@ bool AppInit(int argc, char* argv[])
                     "  smileycoind [options] help <command>      " + _("Get help for a command") + "\n";
 
                 strUsage += "\n" + HelpMessage(HMM_BITCOIND);
-                strUsage += "\n" + HelpMessageCli(false);
             }
 
 
@@ -89,8 +88,8 @@ bool AppInit(int argc, char* argv[])
 
         if (fCommandLine)
         {
-            int ret = CommandLineRPC(argc, argv);
-            exit(ret);
+            fprintf(stderr, "Error: There is no RPC client functionality in smileycoind anymore. Use the smileycoin-cli utility instead.\n");
+            exit(1);
         }
 #ifndef WIN32
         fDaemon = GetBoolArg("-daemon", false);
