@@ -65,6 +65,7 @@ BITCOIN_CORE_H = \
   rpcserver.h \
   script.h \
   serialize.h \
+  crypto/common.h \
   crypto/sha1.h \
   crypto/sha2.h \
 	crypto/ripemd160.h \
