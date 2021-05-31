@@ -6,7 +6,6 @@
 #ifndef H_BITCOIN_SCRIPT
 #define H_BITCOIN_SCRIPT
 
-#include "bignum.h"
 #include "key.h"
 #include "util.h"
 
@@ -450,7 +449,6 @@ public:
     explicit CScript(opcodetype b)     { operator<<(b); }
     explicit CScript(const uint256& b) { operator<<(b); }
     explicit CScript(const CScriptNum& b) { operator<<(b); }
-    explicit CScript(const CBigNum& b) { operator<<(b); }
     explicit CScript(const std::vector<unsigned char>& b) { operator<<(b); }
 
     CScript& operator<<(int64_t b) { return push_int64(b);}
@@ -482,12 +480,6 @@ public:
         assert(key.size() < OP_PUSHDATA1);
         insert(end(), (unsigned char)key.size());
         insert(end(), key.begin(), key.end());
-        return *this;
-    }
-
-    CScript& operator<<(const CBigNum& b)
-    {
-        *this << b.getvch();
         return *this;
     }
 
