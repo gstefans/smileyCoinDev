@@ -50,7 +50,7 @@ src/qt/test/moc*.cpp
 .deps
 .dirstamp
 .*.swp
-*.~
+*~
 *.bak
 *.rej
 *.orig
