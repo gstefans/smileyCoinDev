@@ -61,6 +61,8 @@ public:
     virtual bool DefaultCheckMemPool() const { return false; }
     /* Make standard checks */
     virtual bool RPCisTestNet() const { return false; }
+    /* Make miner wait to have peers to avoid wasting work */
+    virtual bool MiningRequiresPeers() const { return true; }
     const string& DataDir() const { return strDataDir; }
     virtual Network NetworkID() const = 0;
     const vector<CDNSSeedData>& DNSSeeds() const { return vSeeds; }
