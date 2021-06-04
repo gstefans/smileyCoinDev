@@ -1316,7 +1316,7 @@ unsigned int static GetNextWorkRequired_Original(const CBlockIndex* pindexLast, 
     if ((pindexLast->nHeight+1) % nInterval != 0)
     {
         // Special difficulty rule for testnet:
-        if (TestNet())
+        if (Params().RPCisTestNet())
         {
             // If the new block's timestamp is more than 2* 10 minutes
             // then allow mining of a min-difficulty block.
@@ -1382,7 +1382,7 @@ static unsigned int GetNextWorkRequiredMULTI(const CBlockIndex* pindexLast, cons
 {
 	unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit(algo).GetCompact();
 
-	//if (TestNet())
+	//if (Params().RPCisTestNet())
 	//{
 	//	// Testnet minimum difficulty block if it goes over normal block time.
 	//	if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
@@ -1481,7 +1481,7 @@ static unsigned int GetNextWorkRequiredMULTI(const CBlockIndex* pindexLast, cons
 
 unsigned int GetNextWorkRequired(const CBlockIndex * pindexLast, const CBlockHeader * pblock, int algo)
 {
-    if (TestNet()) {
+    if (Params().RPCisTestNet()) {
         if (pindexLast->nHeight+1 < 50) {
             return GetNextWorkRequired_Original(pindexLast, pblock, algo);
         }
@@ -3264,7 +3264,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 	// Check amount of algos in row
 	if(pindexPrev) {
 		// Check count of sequence of same algo
-		if ( (TestNet() && (nHeight >= 100)) || (nHeight > (nRichForkHeight + nBlockSequentialAlgoMaxCount)) ) {
+		if ( (Params().RPCisTestNet() && (nHeight >= 100)) || (nHeight > (nRichForkHeight + nBlockSequentialAlgoMaxCount)) ) {
 			int nAlgo = block.GetAlgo();
 			int nAlgoCount = 1;
 			CBlockIndex* piPrev = pindexPrev;
@@ -3374,7 +3374,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
 		//	return state.DoS(100, error("AcceptBlock() : incorrect proof of work"), 
 		//				    REJECT_INVALID, "bad-diffbits");
 
-		if ( !TestNet() && nHeight < nRichForkHeight && block.GetAlgo() != ALGO_SCRYPT )
+		if ( !Params().RPCisTestNet() && nHeight < nRichForkHeight && block.GetAlgo() != ALGO_SCRYPT )
 			return state.Invalid(error("AcceptBlock() : incorrect hasing algo, only scrypt accepted until block %d", nRichForkHeight),
 					REJECT_INVALID, "bad-hashalgo");
 
@@ -3402,8 +3402,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
 		// Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
 		if (block.nVersion < 2)
 		{
-			if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
-					(TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
+			if ((!Params().RPCisTestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
+					(Params().RPCisTestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
 			{
 				return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
 						REJECT_OBSOLETE, "bad-version");
@@ -3413,8 +3413,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
 		if (block.nVersion >= 2)
 		{
 			// if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-			if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
-					(TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
+			if ((!Params().RPCisTestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
+					(Params().RPCisTestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
 			{
 				CScript expect = CScript() << nHeight;
 				if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||

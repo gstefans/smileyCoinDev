@@ -839,11 +839,11 @@ public:
 
     int GetAlgoWorkFactor() const
     {
-        if (!TestNet() && (nHeight < nRichForkHeight))
+        if (Params().RPCisTestNet() && (nHeight < nRichForkHeight))
         {
             return 1;
         }
-        if (TestNet() && (nHeight < 100))
+        if (Params().RPCisTestNet() && (nHeight < 100))
         {
             return 1;
         }

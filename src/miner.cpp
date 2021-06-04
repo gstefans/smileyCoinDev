@@ -147,7 +147,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, int algo)
     return NULL;
   }
 
-  if (!TestNet() && pindexPrev->nHeight < nRichForkHeight && algo != ALGO_SCRYPT) {
+  if (!Params().RPCisTestNet() && pindexPrev->nHeight < nRichForkHeight && algo != ALGO_SCRYPT) {
     error("MultiAlgo is not yet active. Current block height %d, height multialgo becomes active %d", pindexPrev->nHeight, nRichForkHeight);
     return NULL;
   }
@@ -568,7 +568,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 
 void static MinerWaitOnline()
 {
-  if (Params().MiningRequiresPeers()) {
+  if (Params().MiningRequiresPeers())
   {
     // Busy-wait for the network to come online so we don't waste time mining
     // on an obsolete chain. In regtest mode we expect to fly solo.
@@ -659,7 +659,7 @@ void static BitcoinMiner(CWallet *pwallet)
 
             // In regression test mode, stop mining after a block is found. This
             // allows developers to controllably generate a block on demand.
-            if (Params().MiningRequiresPeers()) {
+            if (Params().MiningRequiresPeers()) 
             throw boost::thread_interrupted();
 
             break;
@@ -697,7 +697,7 @@ void static BitcoinMiner(CWallet *pwallet)
           // Check for stop or if block needs to be rebuilt
           boost::this_thread::interruption_point();
 	  // Regtest mode doesn't require peers
-          if (vNodes.empty() && (Params.MiningRequiresPeers())
+          if (vNodes.empty() && (Params().MiningRequiresPeers()))
           break;
           if (nBlockNonce >= 0xffff0000)
           break;
@@ -708,7 +708,7 @@ void static BitcoinMiner(CWallet *pwallet)
 
           // Update nTime every few seconds
           UpdateTime(*pblock, pindexPrev);
-          if (TestNet())
+          if (Params().RPCisTestNet())
           {
               // Changing pblock->nTime can change work required on testnet:
               hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
@@ -841,7 +841,7 @@ void static BitcoinMiner(CWallet *pwallet)
 
           // Update nTime every few seconds
           UpdateTime(*pblock, pindexPrev);
-          if (TestNet())
+          if (Params().RPCisTestNet())
           {
               // Changing pblock->nTime can change work required on testnet:
               hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
@@ -849,7 +849,7 @@ void static BitcoinMiner(CWallet *pwallet)
         }
           // Update nTime every few seconds
           UpdateTime(*pblock, pindexPrev);
-          if (TestNet())
+          if (Params().RPCisTestNet())
           {
             // Changing pblock->nTime can change work required on testnet:
             hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
@@ -953,7 +953,7 @@ void static BitcoinMiner(CWallet *pwallet)
 
           // Update nTime every few seconds
           UpdateTime(*pblock, pindexPrev);
-          if (TestNet())
+          if (Params().RPCisTestNet())
           {
             // Changing pblock->nTime can change work required on testnet:
             hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();

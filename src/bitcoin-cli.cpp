@@ -35,7 +35,7 @@ static bool AppInitRPC(int argc, char* argv[])
 
     if (argc<2 || mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version"))
     {
-        std::string strUsage = _("Smileycoin Core RPC client version") + " " + FormatFullVersion() + "\n\n" +
+        std::string strUsage = _("Smileycoin Core RPC client version") + " " + FormatFullVersion() + "\n\n";
         if (!mapArgs.count("-version"))
         {
             strUsage += "\n" + _("Usage:") + "\n" +
