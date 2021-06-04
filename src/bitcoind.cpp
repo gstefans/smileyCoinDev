@@ -62,7 +62,7 @@ bool AppInit(int argc, char* argv[])
 
         if (mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version"))
         {
-            std::string strUsage = _("Smileycoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
+            std::string strUsage = _("Smileycoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n";
 
             if (!mapArgs.count("-version"))
             {
