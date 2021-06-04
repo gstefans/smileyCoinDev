@@ -64,7 +64,7 @@ jobs:
     - name: make
       run: |
         make
-        export PACKAGE_VERSION=$(grep PACKAGE_VERSION src/bitcoin-config.h | awk '{gsub(/"/,""); print $3}')
+        export PACKAGE_VERSION=$(grep PACKAGE_VERSION src/config/bitcoin-config.h | awk '{gsub(/"/,""); print $3}')
         echo "SMLY_PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
     - name: make check
       run: make check

@@ -88,13 +88,4 @@ void SelectParams(CChainParams::Network network);
 //Looks for -regtest or -testnet and then calls SelectParams as appropriate.
 bool SelectParamsFromCommandLine();
 
-inline bool TestNet() {
-    // Note: it's deliberate that this returns "false" for regression test mode.
-    return Params().NetworkID() == CChainParams::TESTNET;
-}
-
-inline bool RegTest() {
-    return Params().NetworkID() == CChainParams::REGTEST;
-}
-
 #endif
