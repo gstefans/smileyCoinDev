@@ -1,14 +1,14 @@
 *.tar.gz
 
 *.exe
-src/litecoin
-src/litecoind
-src/litecoin-cli
-src/litecoin-tx
-src/litecoin-wallet
-src/test/test_litecoin
-src/test/test_litecoin_fuzzy
-src/qt/test/test_litecoin-qt
+src/smileycoin
+src/smileycoind
+src/smileycoin-cli
+src/smileycoin-tx
+src/smileycoin-wallet
+src/test/test_smileycoin
+src/test/test_smileycoin_fuzzy
+src/qt/test/test_smileycoin-qt
 
 # autoreconf
 Makefile.in
@@ -56,7 +56,7 @@ src/qt/bitcoin-qt.includes
 .libs
 .vscode
 .*.swp
-*.*~*
+*~
 *.bak
 *.rej
 *.orig
@@ -83,13 +83,13 @@ src/qt/bitcoin-qt.includes
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-litecoin-qt
-litecoin-Qt.app
+smileycoin-qt
+smileycoin-Qt.app
 background.tiff*
 
 # Unit-tests
 Makefile.test
-litecoin-qt_test
+smileycoin-qt_test
 
 # Resources cpp
 qrc_*.cpp
@@ -101,7 +101,7 @@ build
 *.gcno
 *.gcda
 /*.info
-test_litecoin.coverage/
+test_smileycoin.coverage/
 total.coverage/
 coverage_percent.txt
 
