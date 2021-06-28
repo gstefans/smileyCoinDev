@@ -195,7 +195,7 @@ RES_ICONS = \
   qt/res/icons/history.png \
   qt/res/icons/info.png \
   qt/res/icons/key.png \
-  qt/res/icons/litecoin_splash.png \
+  qt/res/icons/smileycoin_splash.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
   qt/res/icons/network_disabled.png \
@@ -382,9 +382,9 @@ CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda 
 CLEANFILES += $(CLEAN_QT)
 
 bitcoin_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_smileycoin_qt_OBJECTS) qt/litecoin-qt$(EXEEXT) $(LIBBITCOINQT)
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_smileycoin_qt_OBJECTS) qt/smileycoin-qt$(EXEEXT) $(LIBBITCOINQT)
 
-bitcoin_qt : qt/litecoin-qt$(EXEEXT)
+bitcoin_qt : qt/smileycoin-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)
