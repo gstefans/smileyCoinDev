@@ -69,17 +69,35 @@ public:
         consensus.BIP34Hash = uint256S("fa09d204a83a768ed5a7c8d441fa62f2043abf420cff1226c7b4329aeb9d51cf");
         consensus.BIP65Height = 918684; // bab3041e8977e0dc3eeff63fe707b92bde1dd449d8efafb248c27c8264cc311a
         consensus.BIP66Height = 811879; // 7aceee012833fa8952f8835d8b1b3ae233cd6ab08fdb27a771d2bd7bdc491894
-        consensus.PremineEndHeight = 1000;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 3.5 * 24 * 60 * 60; // 3.5 days
+
+        consensus.nPowOriginalTargetTimespan = 5 * 24 * 60 * 60; // 5 days
+        consensus.nPowTargetTimespan = 3.0 * 60 * 60; // 3 hours
         consensus.nPowTargetSpacing = 3.0 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 6048; // 75% of 8064
-        consensus.nMinerConfirmationWindow = 8064; // nPowTargetTimespan / nPowTargetSpacing * 4
+        consensus.nMinerConfirmationWindow = 2400; // nPowTargetTimespan / nPowTargetSpacing * 4
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
+
+        // [smly] Smileycoin specific parameters.
+        consensus.PremineEndHeight = 1000;
+        consensus.FirstTimespanChangeHeight = 97050;
+        consensus.MultiAlgoForkHeight = 218000;
+        consensus.MultiAlgoTimespanForkHeight = 222000;
+        consensus.DifficultyChangeForkHeight = 525000;
+        consensus.nMultiAlgoNum = 5;                   // Number of algos implemented
+        consensus.nMultiAlgoTimespan = 36;             // Time per block per algo
+        consensus.nMultiAlgoTimespanV2 = 180;          // Time per block per algo
+        consensus.nMultiAlgoMaxAdjustUp = 20;          // 20% adjustment up
+        consensus.nMultiAlgoMaxAdjustUpV2 = 4;         // 4% adjustment up
+        consensus.nMultiAlgoMaxAdjustDown = 20;        // 20% adjustment down
+        consensus.nMultiAlgoMaxAdjustDownV2 = 8;       // 8% adjustment down
+        consensus.nMultiAlgoAveragingInterval = 60;    // 60 blocks
+        consensus.nMultiAlgoAveragingIntervalV2 = 2;   // 2 blocks
+        consensus.nMultiAlgoLocalTargetAdjustment = 4; // Target adjustment per algo
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
@@ -95,7 +113,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000002ee655bf00bf13b4cca");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0xb34a457c601ef8ce3294116e3296078797be7ded1b0d12515395db9ab5e93ab8"); //1683528
+        consensus.defaultAssumeValid = uint256S("0x660f734cf6c6d16111bde201bbd2122873f2f2c078b969779b9d4c99732354fd"); //Genesis, TODO update
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -130,7 +148,7 @@ public:
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,25);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
         base58Prefixes[SCRIPT_ADDRESS2] = std::vector<unsigned char>(1,153);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,171);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,153);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
@@ -149,15 +167,16 @@ public:
                 {4000, uint256S("0x2bf98d7022a4af00395b3e6d59c979939c5bb368505fe2c47e4552e7aa586424")},
                 {6000, uint256S("0xe7310e1f05efae70f0265a156fa9d39151349d27f969b6f94f31cfb8a16af95a")},
                 {219720, uint256S("0xf6071fb78261ea2e3c458914aa58bb6d264df0f895a8729f0d96736b4535ae11")},
-                {222471, uint256S("0x58a5ed36f0f81423aa1978974bb022bf194f7d5dd230532130c4ab5971ef32c6")}
+                {222471, uint256S("0x58a5ed36f0f81423aa1978974bb022bf194f7d5dd230532130c4ab5971ef32c6")},
+                {400000, uint256S("0xc2d0e59d95edb3fb4b88504f7190f5282511c99fe1431acce1f64608a7a792c6")}
             }
         };
 
         chainTxData = ChainTxData{
-            // Data from rpc: getchaintxstats 4096 2cdba8c47858d34cf0e02dfb8733263a3ed8705b1663ec7c158783d77b93e7ee
-            /* nTime    */ 1500890682,
-            /* nTxCount */ 265351,
-            /* dTxRate  */ 500
+            // Data from rpc: getchaintxstats 177529 c2d0e59d95edb3fb4b88504f7190f5282511c99fe1431acce1f64608a7a792c6
+            /* nTime    */ 1537491936,
+            /* nTxCount */ 459808,
+            /* dTxRate  */ 0.005312635210168289
         };
 
         /* disable fallback fee on mainnet */
