@@ -5,15 +5,15 @@
 #ifndef HASH_GROESTL
 #define HASH_GROESTL
 
-#include <uint256.h>
-#include <serialize.h>
 #include <multialgo/sph_groestl.h>
+#include <serialize.h>
+#include <uint256.h>
 
-#include <openssl/sha.h>
 #include <openssl/ripemd.h>
+#include <openssl/sha.h>
 #include <vector>
 
-template<typename T1>
+template <typename T1>
 inline uint256 HashGroestl(const T1 pbegin, const T1 pend)
 {
     sph_groestl512_context ctx_groestl;
