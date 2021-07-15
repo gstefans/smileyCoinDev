@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2018 The Bitcoin Core developers
+// Copyright (c) 2014-2018 The Digibyte Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -167,6 +168,7 @@ public:
 
     base_uint& operator*=(uint32_t b32);
     base_uint& operator*=(const base_uint& b);
+    base_uint& operator/=(uint32_t b32);
     base_uint& operator/=(const base_uint& b);
 
     base_uint& operator++()
@@ -216,6 +218,7 @@ public:
     friend inline const base_uint operator>>(const base_uint& a, int shift) { return base_uint(a) >>= shift; }
     friend inline const base_uint operator<<(const base_uint& a, int shift) { return base_uint(a) <<= shift; }
     friend inline const base_uint operator*(const base_uint& a, uint32_t b) { return base_uint(a) *= b; }
+    friend inline const base_uint operator/(const base_uint& a, uint32_t b) { return base_uint(a) /= b; }
     friend inline bool operator==(const base_uint& a, const base_uint& b) { return memcmp(a.pn, b.pn, sizeof(a.pn)) == 0; }
     friend inline bool operator!=(const base_uint& a, const base_uint& b) { return memcmp(a.pn, b.pn, sizeof(a.pn)) != 0; }
     friend inline bool operator>(const base_uint& a, const base_uint& b) { return a.CompareTo(b) > 0; }
@@ -240,6 +243,8 @@ public:
      * value is zero.
      */
     unsigned int bits() const;
+
+    base_uint ApproxNthRoot(int n) const;
 
     uint64_t GetLow64() const
     {
