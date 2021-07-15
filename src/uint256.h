@@ -131,10 +131,11 @@ public:
 class uint512 : public base_blob<512> {
 public:
     uint512() {}
+    uint512(const base_blob<512>& b) : base_blob<512>(b) {}
     explicit uint512(const std::vector<unsigned char>& vch) : base_blob<512>(vch) {}
     uint256 trim256() const
     {
-        std::vector<uint8_t> vch(0,uint512::WIDTH/2);
+        const std::vector<unsigned char> vch(std::begin(data), std::begin(data) + 32);
         return uint256(vch);
     }
 };
