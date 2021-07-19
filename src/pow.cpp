@@ -109,7 +109,6 @@ unsigned int GetNextMultiAlgoWorkRequired(const CBlockIndex* pindexLast, const C
 
     const CBlockIndex* pindexPrevAlgo = GetLastBlockIndexForAlgo(pindexLast, params, algo, nMultiAlgoTargetSpacing);
     if (pindexPrevAlgo == NULL || pindexFirst == NULL) {
-        LogPrintf("Use default POW Limit\n");
         return nProofOfWorkLimit;
     }
 
