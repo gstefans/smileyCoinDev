@@ -4,6 +4,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <chain.h>
+#include <chainparams.h>
+#include <pow.h>
 
 /**
  * CChain implementation
@@ -118,19 +120,73 @@ void CBlockIndex::BuildSkip()
         pskip = pprev->GetAncestor(GetSkipHeight(nHeight));
 }
 
+int GetAlgoWorkFactor(int nHeight, int algo)
+{
+    const Consensus::Params& params = Params().GetConsensus();
+    if (nHeight < params.MultiAlgoForkHeight) {
+        return 1;
+    }
+    switch (algo) {
+    case ALGO_SHA256D:
+        return 1;
+    // work factor = absolute work ratio * optimisation factor
+    case ALGO_SCRYPT:
+        return 1024 * 4;
+    case ALGO_GROESTL:
+        return 64 * 8;
+    case ALGO_SKEIN:
+        return 4 * 6;
+    case ALGO_QUBIT:
+        return 128 * 8;
+    default:
+        return 1;
+    }
+}
+
 arith_uint256 GetBlockProof(const CBlockIndex& block)
 {
-    arith_uint256 bnTarget;
-    bool fNegative;
-    bool fOverflow;
-    bnTarget.SetCompact(block.nBits, &fNegative, &fOverflow);
-    if (fNegative || fOverflow || bnTarget == 0)
-        return 0;
-    // We need to compute 2**256 / (bnTarget+1), but we can't represent 2**256
-    // as it's too large for an arith_uint256. However, as 2**256 is at least as large
-    // as bnTarget+1, it is equal to ((2**256 - bnTarget - 1) / (bnTarget+1)) + 1,
-    // or ~bnTarget / (bnTarget+1) + 1.
-    return (~bnTarget / (bnTarget + 1)) + 1;
+    const Consensus::Params& params = Params().GetConsensus();
+    if (block.nHeight < params.MultiAlgoForkHeight) {
+        arith_uint256 bnTarget;
+        bool fNegative;
+        bool fOverflow;
+        bnTarget.SetCompact(block.nBits, &fNegative, &fOverflow);
+        if (fNegative || fOverflow || bnTarget == 0)
+            return 0;
+        // We need to compute 2**256 / (bnTarget+1), but we can't represent 2**256
+        // as it's too large for an arith_uint256. However, as 2**256 is at least as large
+        // as bnTarget+1, it is equal to ((2**256 - bnTarget - 1) / (bnTarget+1)) + 1,
+        // or ~bnTarget / (bnTarget+1) + 1.
+        return (~bnTarget / (bnTarget + 1)) + 1;
+    }
+    return GetMultiAlgoBlockProof(block, params);
+}
+
+arith_uint256 GetMultiAlgoBlockProof(const CBlockIndex& block, const Consensus::Params& params)
+{
+    CBlockHeader header = block.GetBlockHeader();
+    // Compute the geometric mean of the block targets for each individual algorithm
+    arith_uint256 bnAvgTarget(1);
+    // multiply the difficulties of all algorithms
+    for (int i = 0; i < NUM_ALGOS; i++) {
+        unsigned int nBits = GetNextWorkRequired(block.pprev, &header, params);
+        arith_uint256 bnTarget;
+        bnTarget.SetCompact(nBits);
+        bool fNegative;
+        bool fOverflow;
+        bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
+        if (fNegative || fOverflow || bnTarget == 0)
+            return 0;
+        // Instead of multiplying them all together and then taking the
+        // nth root at the end, take the roots individually then multiply so
+        // that all intermediate values fit in 256-bit integers.
+        bnAvgTarget *= bnTarget.ApproxNthRoot(NUM_ALGOS);
+    }
+    arith_uint256 bnRes = (~bnAvgTarget / (bnAvgTarget + 1)) + 1;
+    // Scale to roughly match the old work calculation
+    bnRes <<= 7;
+
+    return bnRes;
 }
 
 int64_t GetBlockProofEquivalentTime(const CBlockIndex& to, const CBlockIndex& from, const CBlockIndex& tip, const Consensus::Params& params)

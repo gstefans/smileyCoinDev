@@ -316,6 +316,15 @@ public:
         return GetBlockHeader().GetPoWHash();
     }
 
+    /**
+     * [smly] Get the algorithm used for this block.
+     */
+    int GetAlgo() const
+    {
+        CBlockHeader block = GetBlockHeader();
+        return block.GetAlgo();
+    }
+
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;
@@ -382,6 +391,8 @@ public:
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);
+/** [smly] Multialgo blockproof that takes into account different algo workfactors. */
+arith_uint256 GetMultiAlgoBlockProof(const CBlockIndex& block, const Consensus::Params& params);
 /** Return the time it would take to redo the work difference between from and to, assuming the current hashrate corresponds to the difficulty at tip, in seconds. */
 int64_t GetBlockProofEquivalentTime(const CBlockIndex& to, const CBlockIndex& from, const CBlockIndex& tip, const Consensus::Params&);
 /** Find the forking point between two chain tips. */
