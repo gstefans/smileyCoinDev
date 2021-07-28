@@ -106,4 +106,4 @@ jobs:
       with:
         name: Smileycoin-Core
         path: |
-          ${{ github.workspace }}/Smileycoin-Core.dmg
+          ${{ github.workspace }}/Smileycoin-Qt.dmg
