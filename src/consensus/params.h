@@ -60,6 +60,7 @@ struct Params {
     int BIP66Height;
     /** [smly] Block height at which Premine is over*/
     int PremineEndHeight;
+    int64_t nPremineSubsidyAmount;
     /** [smly] Block height when first target timespan change was made and original timespan*/
     int FirstTimespanChangeHeight;
     int64_t nPowOriginalTargetTimespan;

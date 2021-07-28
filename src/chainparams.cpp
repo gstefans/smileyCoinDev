@@ -88,6 +88,7 @@ public:
         consensus.MultiAlgoForkHeight = 218000;
         consensus.MultiAlgoTimespanForkHeight = 222000;
         consensus.DifficultyChangeForkHeight = 525000;
+        consensus.nPremineSubsidyAmount = 24000000;    // The first 1000 blocks receive 24,000,000 SMLY
         consensus.nMultiAlgoNum = 5;                   // Number of algos implemented
         consensus.nMultiAlgoTimespan = 36;             // Time per block per algo
         consensus.nMultiAlgoTimespanV2 = 180;          // Time per block per algo
