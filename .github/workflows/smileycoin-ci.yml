@@ -101,11 +101,9 @@ jobs:
     - name: Make deploy
       run: |
         make deploy
-        sha256sum Smileycoin-Core.dmg > SHA256
     - name: Upload installer
       uses: actions/upload-artifact@v2
       with:
         name: Smileycoin-Core
         path: |
           ${{ github.workspace }}/Smileycoin-Core.dmg
-          ${{ github.workspace }}/SHA256
