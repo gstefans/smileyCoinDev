@@ -13,73 +13,99 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: dependencies
+    - name: Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libboost-all-dev libssl-dev libtool autoconf pkg-config
     - name: build bdb
       run: ./contrib/install_db4.sh `pwd`
-    - name: configure
+    - name: Configure
       run: |
         ./autogen.sh
         export BDB_PREFIX="$(pwd)/db4"
         ./configure --with-gui=no BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
-    - name: make
+    - name: Make
       run: make
 
   ubuntu_gui:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: dependencies
+    - name: Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libminiupnpc-dev libzmq3-dev libboost-all-dev libssl-dev libtool autoconf pkg-config
         sudo apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-    - name: build bdb
+    - name: Build bdb
       run: ./contrib/install_db4.sh `pwd`
-    - name: configure
+    - name: Configure
       run: |
         ./autogen.sh
         export BDB_PREFIX="$(pwd)/db4"
         ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
-    - name: make
+    - name: Make
       run: make
 
   ubuntu_xpile_win:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: dependencies
+    - name: Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libtool autotools-dev automake autoconf pkg-config bsdmainutils curl git
         sudo apt-get install -y g++-mingw-w64-x86-64 nsis
-    - name: cache depends
+    - name: Cache depends
       id: cache-depends
       uses: actions/cache@v2
       with:
         path: depends
         key: depends-${{ hashFiles('**/depends/built/x86_64-w64-mingw32/*/*.tar.gz.hash') }}
-    - name: compile depends
+    - name: Compile depends
       run: cd depends && make HOST=x86_64-w64-mingw32
-    - name: configure
+    - name: Configure
       run: |
         ./autogen.sh
         CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
-    - name: make
+    - name: Make
       run: |
         make
         export PACKAGE_VERSION=$(grep PACKAGE_VERSION src/bitcoin-config.h | awk '{gsub(/"/,""); print $3}')
         echo "SMLY_PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
-    - name: make deploy
+    - name: Make deploy
       run: |
         make deploy
         sha256sum smileycoin-$SMLY_PACKAGE_VERSION-win64-setup.exe > SHA256
-    - name: upload installer
+    - name: Upload installer
       uses: actions/upload-artifact@v2
       with:
         name: smileycoin-${{ env.SMLY_PACKAGE_VERSION }}-win64-setup
         path: |
           ${{ github.workspace }}/smileycoin-${{ env.SMLY_PACKAGE_VERSION }}-win64-setup.exe
+          ${{ github.workspace }}/SHA256
+  macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Dependencies
+      run: |
+        brew update
+        brew install automake berkeley-db4 libtool boost miniupnpc openssl pkg-config protobuf python qt@5 libevent qrencode librsvg
+    - name: Configure
+      run: |
+        ./autogen.sh
+        ./configure 
+    - name: Make
+      run: |
+        make
+    - name: Make deploy
+      run: |
+        make deploy
+        sha256sum Smileycoin-Core.dmg > SHA256
+    - name: Upload installer
+      uses: actions/upload-artifact@v2
+      with:
+        name: Smileycoin-Core
+        path: |
+          ${{ github.workspace }}/Smileycoin-Core.dmg
           ${{ github.workspace }}/SHA256
