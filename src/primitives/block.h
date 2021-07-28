@@ -48,6 +48,7 @@ inline int GetVersionForAlgo(int algo)
     case ALGO_QUBIT:
         return BLOCK_VERSION_QUBIT;
     }
+    return BLOCK_VERSION_SCRYPT;
 }
 
 /** Nodes collect new transactions into a block, hash them into a hash tree,
